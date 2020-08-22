@@ -1,5 +1,6 @@
 import app from 'firebase/app'
 import 'firebase/auth';
+import 'firebase-admin';
 
 const config = {
     apiKey: process.env.REACT_APP_API_KEY,
@@ -14,6 +15,7 @@ class Firebase {
     constructor(){
         app.initializeApp(config);
         this.auth = app.auth();
+        this.firestore = app.firestore();
     }
 
     createUserWithEmailAndPassword = (email, password) => {
@@ -27,6 +29,60 @@ class Firebase {
     signOut = () => {
         this.auth.signOut();
     }
+    
+    //users
+    getUser = () => {
+        return {};
+        //TODO
+    }
+
+    updateUser = () => {
+
+    }
+    
+
+    //assets
+    getAssets = () => {
+        
+    }
+
+    addAsset = () => {
+
+    }
+
+    removeAsset = () => {
+
+    }
+
+    updateAsset = () => {
+
+    }
+
+    //documents
+    getDocuments = () => {
+
+    }
+
+    getAllDocuments = () => {
+
+    }
+
+    addDoc = () => {
+
+    }
+
+    removeDoc = () => {
+
+    }
+
+    updateDoc = () => {
+
+    }
+
+
+
+
+    //TODO add methods
 }
 
 export default Firebase;

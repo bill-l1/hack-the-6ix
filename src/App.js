@@ -8,7 +8,7 @@ import Main from './pages/Main'
 
 import { withFirebase } from './components/Firebase'
 
-const App = () => {
+const App = ({firebase}) => {
   return (
     <Router>
       <div className="App">
