@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import MockDesign from '../assets/mock-app-design.jpg'
 import { makeStyles, styled } from '@material-ui/core/styles'
 import { Button, Input, Card, CardContent } from '@material-ui/core'
@@ -6,6 +6,8 @@ import { DoubleArrow } from '@material-ui/icons';
 import { animateScroll as scroll } from 'react-scroll'
 import * as ROUTES from '../constants/routes'
 import { Link, useHistory } from 'react-router-dom'
+
+import { withFirebase } from '../components/Firebase';
 
 const useStyles = makeStyles({
     signUpDiv: {
@@ -98,9 +100,45 @@ const InfoCards = styled(Card)({
     }
 });
 
-const Landing = () => { 
-    const classes = useStyles()
+const Landing = (props) => { 
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+    const [persistence, setPersistence] = useState(false);
+    const [signinError, setSigninError] = useState(null)
+
+    const classes = useStyles();
     const history = useHistory()
+
+    const onEmailChange = e => {
+        setEmail(e.target.value);
+    }
+
+    const onPasswordChange = e => {
+        setPassword(e.target.value);
+    }
+
+    const onCheckboxChange = e => {
+        props.firebase.signOut();
+        setPersistence(e.target.value);
+    }
+
+    const onSubmit = e => {
+        e.preventDefault()
+        console.log('logging in')
+        
+        props.firebase.signInWithEmailAndPassword(email, password, persistence)
+        .then(() => {
+            setEmail('')
+            setPassword('')
+            setSigninError(null)
+            props.history.push('/main');
+            console.log('logged in');
+        })
+        .catch(err => {
+            setSigninError(err);
+            console.error(err)
+        })
+    }
 
     return (
         <div>
@@ -111,13 +149,22 @@ const Landing = () => {
                 <div>
                     <h3>Logo</h3>
                     <h5>A simple way to text, video chat & plan things all in one place</h5>
-                    <AuthInput disableUnderline={true} placeholder='Email'/>
-                    <AuthInput disableUnderline={true} placeholder='Password'/>
+                    {/* <form onSubmit={onFormSubmit}>
+                        <AuthInput name='email' type='text' onChange={onEmailChange} disableUnderline={true} placeholder='Email'/>
+                        <AuthInput name='password' type='password' onChange={onPasswordChange} disableUnderline={true} placeholder='Password'/>
+                        <MyButton disabled={email === '' || password === ''} type='submit'>Sign In</MyButton>
+                        {signinError && <small style={{color:'red'}}>{signinError.message}</small>}
+                    </form>
+                    <input onChange={onCheckboxChange} type='checkbox'/><label>Keep me signed in</label>
+                    <p>Forgot password?</p>
+                    <p>Create an account</p> */}
+                    <AuthInput name='email' type='text' onChange={onEmailChange} disableUnderline={true} placeholder='Email'/>
+                    <AuthInput name='password' type='password' onChange={onPasswordChange} disableUnderline={true} placeholder='Password'/>
                     <div className={classes.flexDisplay}>
-                        <input type='checkbox'/><p>Keep me signed in</p>
+                        <input onChange={onCheckboxChange} type='checkbox'/><p>Keep me signed in</p>
                         <p>Forgot password?</p>
                     </div>
-                    <MyButton onClick={() => history.push(ROUTES.MAIN)}>Sign In</MyButton>
+                    <MyButton disabled={email === '' || password === ''} onClick={onSubmit}>Sign In</MyButton>
                     <p>Don't have an account? <Link to={ROUTES.CREATEACCOUNT}>Create an account</Link>, it takes less than a minute</p>
                 </div>
                 <div onClick={() => scroll.scrollToBottom()}><DoubleArrow className={classes.scroll} /></div>
@@ -168,4 +215,4 @@ const Landing = () => {
     )
 }
 
-export default Landing
+export default withFirebase(Landing);

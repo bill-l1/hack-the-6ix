@@ -1,5 +1,7 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect  } from 'react'
 import { makeStyles } from '@material-ui/core/styles';
+
+import {withFirebase} from '../components/Firebase'
 
 import AssetList from '../components/AssetList'
 import Header from '../components/Header'
@@ -16,10 +18,17 @@ const useStyles = makeStyles({
     }
 })
 
-
 const Main = (props) => { 
     const [filters, setFilters] = useState([])
     const [search, setSearch] = useState('')
+    const [userAuth, setUserAuth] = useState(null);
+
+    useEffect(() => {
+        props.firebase.auth.onAuthStateChanged(user => {
+            user ? setUserAuth(user) : setUserAuth(null)
+            console.log(userAuth);
+        })
+    }, [userAuth])
 
     const classes = useStyles()
 
@@ -41,4 +50,4 @@ const Main = (props) => {
     )
 }
 
-export default Main
+export default withFirebase(Main);
