@@ -1,12 +1,20 @@
-import React from 'react';
+import React from 'react'
+import LandingPage from './pages/LandingPage/LandingPage'
+import {BrowserRouter as Router, Switch, Route} from 'react-router-dom'
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-
-      </header>
-    </div>
+    <Router>
+      <div className="App">
+        <Switch>
+          <Route
+            exact={true} 
+            path='/' 
+            render={() => <LandingPage />}>
+          </Route>
+        </Switch>
+      </div>
+    </Router>
   );
 }
 
