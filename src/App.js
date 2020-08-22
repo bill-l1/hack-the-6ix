@@ -2,7 +2,7 @@ import React from 'react'
 import LandingPage from './pages/LandingPage/LandingPage'
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom'
 
-function App() {
+const App = () => {
   return (
     <Router>
       <div className="App">
@@ -18,4 +18,4 @@ function App() {
   );
 }
 
-export default App;
+export default App
