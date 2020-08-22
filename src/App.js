@@ -1,8 +1,12 @@
 import React from 'react'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 
+import * as ROUTES from './constants/routes'
+
 import Landing from './pages/Landing'
 import Main from './pages/Main'
+
+import { withFirebase } from './components/Firebase'
 
 const App = () => {
   return (
@@ -11,13 +15,13 @@ const App = () => {
         <Switch>
           <Route
             exact={true} 
-            path='/' 
-            render={() => <Landing />}
+            path={ROUTES.LANDING}
+            component={Landing}
           />
           <Route
             exact={true} 
-            path='/main' 
-            render={() => <Main />}
+            path={ROUTES.MAIN}
+            component={Main}
           />
         </Switch>
       </div>
@@ -25,4 +29,4 @@ const App = () => {
   );
 }
 
-export default App
+export default withFirebase(App)
