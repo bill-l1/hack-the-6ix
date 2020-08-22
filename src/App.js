@@ -20,13 +20,12 @@ const App = () => {
             exact={true} 
             path={ROUTES.MAIN}
             component={Main}
-            path='/create_account' 
-            render={() => <Landing />}
+            render={() => <Main />}
           />
           <Route
             exact={true} 
-            path='/main' 
-            render={() => <Main />}
+            path='/create_account' 
+            render={() => <Landing />}
           />
         </Switch>
       </div>
