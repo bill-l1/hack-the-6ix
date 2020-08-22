@@ -21,11 +21,11 @@ const App = () => {
           <Route
             exact={true} 
             path={ROUTES.MAIN}
-            render={() => <Main />}
+            component={Main}
           />
           <Route
-            exact={true}
-            path='/create_account' 
+            exact={true} 
+            path={ROUTES.CREATEACCOUNT}
             render={() => <CreateAccount />}
           />
         </Switch>

@@ -31,3 +31,4 @@ firestore.rules
 firebase.json
 
 .env
+env

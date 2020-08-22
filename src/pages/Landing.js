@@ -3,6 +3,8 @@ import MockDesign from '../assets/mock-app-design.jpg'
 import { makeStyles, styled } from '@material-ui/core/styles'
 import { Button, Input, Card, CardContent } from '@material-ui/core'
 import { animateScroll as scroll } from 'react-scroll'
+import * as ROUTES from '../constants/routes'
+import { Link, useHistory } from 'react-router-dom'
 
 const useStyles = makeStyles({
     signUpDiv: {
@@ -29,6 +31,17 @@ const useStyles = makeStyles({
         '& img': {
             maxWidth: '100%',
             maxHeight: '100%'
+        },
+        '& p': {
+            color: '#2F4F4F',
+            fontSize: '12px' 
+        }
+    },
+    flexDisplay: {
+        display: 'flex',
+        alignItems: 'center',
+        '& p:last-child': {
+            paddingLeft: '100px'
         }
     },
     infoDiv: {
@@ -60,8 +73,8 @@ const AuthInput = styled(Input)({
 
 const MyButton = styled(Button)({
     display: 'flex',
-    background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
-    margin: '15px 0px',
+    background: 'linear-gradient(80deg, #FE6B8B 30%, #FF8E53 90%)',
+    margin: '5px 0 15px 0px',
     border: 0,
     borderRadius: '5px',
     boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
@@ -80,8 +93,9 @@ const InfoCards = styled(Card)({
     }
 });
 
-const Landing = (props) => { 
-    const classes = useStyles();
+const Landing = () => { 
+    const classes = useStyles()
+    const history = useHistory()
 
     return (
         <div>
@@ -94,10 +108,12 @@ const Landing = (props) => {
                     <h5>A simple way to text, video chat & plan things all in one place</h5>
                     <AuthInput disableUnderline={true} placeholder='Email'/>
                     <AuthInput disableUnderline={true} placeholder='Password'/>
-                    <MyButton>Sign In</MyButton>
-                    <input type='checkbox'/><label>Keep me signed in</label>
-                    <p>Forgot password?</p>
-                    <p>Create an account</p>
+                    <div className={classes.flexDisplay}>
+                        <input type='checkbox'/><p>Keep me signed in</p>
+                        <p>Forgot password?</p>
+                    </div>
+                    <MyButton onClick={() => history.push(ROUTES.MAIN)}>Sign In</MyButton>
+                    <p>Don't have an account? <Link to={ROUTES.CREATEACCOUNT}>Create an account</Link>, it takes less than a minute</p>
                 </div>
                 <div onClick={() => scroll.scrollToBottom()}>v</div>
             </div>
