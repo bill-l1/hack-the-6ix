@@ -1,12 +1,13 @@
-import React from 'react';
+import React from 'react'
 import MockDesign from '../assets/mock-app-design.jpg'
-import { makeStyles, styled } from '@material-ui/core/styles';
-import { Button, Input, Card } from '@material-ui/core';
+import { makeStyles, styled } from '@material-ui/core/styles'
+import { Button, Input, Card, CardContent } from '@material-ui/core'
+import { animateScroll as scroll } from 'react-scroll'
 
 const useStyles = makeStyles({
     signUpDiv: {
         backgroundColor: '#ededed',
-        padding: '15vh 20vh',
+        padding: '15vh 20vh 10vh 20vh',
         display: 'grid',
         gridTemplateColumns: '1fr 1fr',
         alignItems: 'center',
@@ -15,6 +16,11 @@ const useStyles = makeStyles({
             padding: '0px 10px',
             '&:first-child': {
                 textAlign: 'center'
+            },
+            '&:last-child': {
+                gridColumn: '1/3',
+                textAlign: 'center',
+                paddingTop: '3vh'
             }
         },
         '& label': {
@@ -26,9 +32,14 @@ const useStyles = makeStyles({
         }
     },
     infoDiv: {
-        padding: '3vh 20vh', 
+        padding: '3vh 20vh 7vh 20vh', 
         display: 'flex',
-        justifyContent: 'space-around'
+        justifyContent: 'space-around',
+    },
+    footer: {
+        display: 'flex',
+        padding: '3vh 15vh', 
+        backgroundColor: '#ededed',
     }
 });
 
@@ -60,12 +71,13 @@ const MyButton = styled(Button)({
 });
 
 const InfoCards = styled(Card)({
-    background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
     borderRadius: '5px',
+    margin: '0 10px',
     boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
-    color: 'white',
-    height: '40px',
-    width: '80%'
+    width: '80%',
+    '& h3': {
+        textAlign: 'center'
+    }
 });
 
 const Landing = (props) => { 
@@ -87,14 +99,49 @@ const Landing = (props) => {
                     <p>Forgot password?</p>
                     <p>Create an account</p>
                 </div>
+                <div onClick={() => scroll.scrollToBottom()}>v</div>
             </div>
             <div>
-                <h2 style={{'textAlign':'center', 'padding':'2vh 0'}}>What we provide</h2>
+                <h2 style={{'textAlign':'center', 'padding':'2vh 0 0 0'}}>
+                    What we provide
+                </h2>
             </div>
             <div className={classes.infoDiv}>
-                <InfoCards>a</InfoCards>
-                <InfoCards>a</InfoCards>
-                <InfoCards>a</InfoCards>
+                <InfoCards>
+                    <CardContent>
+                        icon<br /><h3>Title</h3>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore 
+                        magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo 
+                        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
+                        Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                    </CardContent>
+                </InfoCards>
+                <InfoCards>
+                    <CardContent>
+                        icon<br /><h3>Title</h3>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore 
+                        magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo 
+                        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
+                        Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                    </CardContent>
+                </InfoCards>
+                <InfoCards>
+                    <CardContent>
+                        icon<br /><h3>Title</h3>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore 
+                        magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo 
+                        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
+                        Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                    </CardContent>
+                </InfoCards>
+            </div>
+            <div className={classes.footer}>
+                <div>
+                    Copyright © 2020, Company Name
+                </div>
+                <div style={{'marginLeft': 'auto'}}>
+                    ICONS ICONS ICONS
+                </div>
             </div>
         </div>
     )
