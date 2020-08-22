@@ -8,19 +8,16 @@ import Profile from './pages/Profile'
 
 import { withFirebase } from './components/Firebase'
 
-// const PrivateRoute = ({component: Component, userAuth, firebase, ...rest}) => {
-//   const authed = userAuth || firebase.auth().currentUser();
-//   console.log("routeAuth:", userAuth);
-//   console.log("routeAuth:", firebase.auth().currentUser());
-//   return (
-//     <Route
-//     {...rest}
-//       render={(props) => authed !== false
-//         ? <Component {...props} />
-//         : <Redirect to={{pathname: ROUTES.LANDING, state: {from: props.location}}} />}
-//     />
-//   )
-// }
+const CondRoute = ({component: Component, redirectTo, condition, ...rest}) => {
+  return (
+    <Route
+    {...rest}
+      render={(props) => condition
+        ? <Component {...props} />
+        : <Redirect to={redirectTo} />}
+    />
+  )
+}
 
 const App = ({firebase}) => {
   const [userAuth, setUserAuth] = useState(null);
@@ -28,6 +25,7 @@ const App = ({firebase}) => {
   useEffect(() => {
       firebase.auth.onAuthStateChanged(user => {
           user ? setUserAuth(user) : setUserAuth(null)
+          if(user) console.log(firebase.getUser());
       })
   }, [userAuth])
 
@@ -35,25 +33,31 @@ const App = ({firebase}) => {
     <Router>
       <div className="App">
         <Switch>
-          <Route
+          <CondRoute
             exact={true} 
             path={ROUTES.LANDING}
             component={Landing}
+            redirectTo={ROUTES.MAIN}
+            condition={userAuth == null}
           />
-          <Route
+          <CondRoute
             exact={true} 
             path={ROUTES.MAIN}
             component={Main}
+            redirectTo={ROUTES.LANDING}
+            condition={userAuth != null}
           />
           <Route
             exact={true} 
             path={ROUTES.CREATEACCOUNT}
             component={CreateAccount}
           />
-          <Route
+          <CondRoute
             exact={true} 
             path={ROUTES.PROFILE}
             component={Profile}
+            redirectTo={ROUTES.LANDING}
+            condition={userAuth != null}
           />
         </Switch>
       </div>

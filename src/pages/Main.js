@@ -37,7 +37,7 @@ const Main = (props) => {
                 <p>Filters Go Here</p>
             </div>
 
-            <AssetList firebase={props.firebase }search={search} filters={filters}/>
+            <AssetList firebase={props.firebase} search={search} filters={filters}/>
         </>
     )
 }

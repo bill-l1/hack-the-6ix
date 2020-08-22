@@ -20,9 +20,9 @@ class Firebase {
         this.storage = app.storage();
     }
 
-    createUserWithEmailAndPassword = (email, password, persistence=false) => {
+    createUserWithEmailAndPassword = (email, password, name, persistence=false) => {
         return this.auth.createUserWithEmailAndPassword(email, password).then(user => {
-            console.log(user); //TODO add to database
+            return this.updateUserName(name);
         })
     }
 

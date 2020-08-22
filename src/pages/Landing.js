@@ -126,7 +126,7 @@ const Landing = (props) => {
             setEmail('')
             setPassword('')
             setSigninError(null)
-            props.history.push('/main');
+            history.push(ROUTES.MAIN);
             console.log('logged in');
         })
         .catch(err => {

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { makeStyles } from '@material-ui/core/styles';
-
+import { withFirebase } from './Firebase'
 import AssetCard from './AssetCard'
 
 const useStyles = makeStyles({
@@ -40,10 +40,16 @@ const AssetList = ({firebase, search, filters}) => {
     useEffect(() => {
         firebase.auth.onAuthStateChanged(user => {
             user ? setUserAuth(user) : setUserAuth(null)
-            console.log(firebase.getUser());
-            firebase.getAllAssets().then(assets => {
-                setCards(assets);
-            });
+            if(user){
+                console.log(firebase.getUser());
+                firebase.getAllAssets().then(assets => {
+                    setCards(assets);
+                });
+            }
+            
+            return () => {
+                console.log('cleanup effects');
+            }
         })
     }, [userAuth])
     
@@ -68,4 +74,4 @@ const AssetList = ({firebase, search, filters}) => {
     )
 }
 
-export default AssetList
+export default withFirebase(AssetList)
