@@ -9,6 +9,7 @@ import {withFirebase} from '../components/Firebase'
 
 import AssetList from '../components/AssetList'
 import Filters from '../components/Filters'
+import FloatingActionButtons from '../components/FloatingActionButtons'
 import Header from '../components/Header'
 
 
@@ -24,7 +25,7 @@ const insuranceTypes = [
 ]
 
 let cards = []
-for (let i = 0; i < 20; i++) {
+for (let i = 0; i < 30; i++) {
     let name = names[Math.floor(Math.random() * names.length)]
     let category = insuranceTypes[Math.floor(Math.random() * insuranceTypes.length)].name
 
@@ -34,13 +35,13 @@ for (let i = 0; i < 20; i++) {
     })
 }
 
-const Main = (props) => { 
+const Main = ({firebase}) => { 
     const [categories, setCategories] = useState([])
     const [search, setSearch] = useState('')
     const [userAuth, setUserAuth] = useState(null);
 
     useEffect(() => {
-        props.firebase.auth.onAuthStateChanged(user => {
+        firebase.auth.onAuthStateChanged(user => {
             user ? setUserAuth(user) : setUserAuth(null)
             console.log(userAuth);
         })
@@ -64,6 +65,7 @@ const Main = (props) => {
             <Header />
             <Filters insuranceTypes={insuranceTypes} onSearchbarChange={onSearchbarChange} onCategoryChange={onCategoryChange} categories={categories}/>
             <AssetList search={search} categories={categories} cards={cards}/>
+            <FloatingActionButtons />
         </>
     )
 }
