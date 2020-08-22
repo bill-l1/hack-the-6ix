@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
-import HomeIcon from '@material-ui/icons/Home'
 
 
 const useStyles = makeStyles({
@@ -18,17 +17,17 @@ const useStyles = makeStyles({
     }
 })
 
-const Filters = ({categoryNames, onSearchbarChange, onCategoryChange, categories}) => { 
+const Filters = ({insuranceTypes, onSearchbarChange, onCategoryChange, categories}) => { 
     const classes = useStyles()
 
-    const categoryButtons = categoryNames.map(category => {
+    const categoryButtons = insuranceTypes.map(category => {
         return (
         <Button
-            startIcon={<HomeIcon />}
-            color={categories.includes(category) ? 'primary' : 'default'}
-            onClick={() => onCategoryChange(category)}
+            startIcon={category.icon}
+            color={categories.includes(category.name) ? 'primary' : 'default'}
+            onClick={() => onCategoryChange(category.name)}
         >
-            {category}
+            {category.name}
         </Button>
     )})
 

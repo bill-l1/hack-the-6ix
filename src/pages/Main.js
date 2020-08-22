@@ -1,5 +1,9 @@
 import React, { useState } from 'react'
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles'
+import HomeIcon from '@material-ui/icons/Home'
+import DriveEtaIcon from '@material-ui/icons/DriveEta'
+import GradeIcon from '@material-ui/icons/Grade'
+import EmojiSymbolsIcon from '@material-ui/icons/EmojiSymbols'
 
 import AssetList from '../components/AssetList'
 import Filters from '../components/Filters'
@@ -10,12 +14,17 @@ const useStyles = makeStyles({
 })
 
 const names = ['Aarish', 'Bill', 'Bowen', 'Matthew']
-const categoryNames = ['Property', 'Auto', 'Liability']
+const insuranceTypes = [
+    { name: 'Property', icon: <HomeIcon /> },
+    { name: 'Auto', icon: <DriveEtaIcon /> },
+    { name: 'Valuables', icon: <GradeIcon /> },
+    { name: 'Misc.', icon: <EmojiSymbolsIcon /> }
+]
 
 let cards = []
 for (let i = 0; i < 20; i++) {
     let name = names[Math.floor(Math.random() * names.length)]
-    let category = categoryNames[Math.floor(Math.random() * categoryNames.length)]
+    let category = insuranceTypes[Math.floor(Math.random() * insuranceTypes.length)].name
 
     cards.push({
         name: name,
@@ -43,7 +52,7 @@ const Main = (props) => {
     return (
         <>
             <Header />
-            <Filters categoryNames={categoryNames} onSearchbarChange={onSearchbarChange} onCategoryChange={onCategoryChange} categories={categories}/>
+            <Filters insuranceTypes={insuranceTypes} onSearchbarChange={onSearchbarChange} onCategoryChange={onCategoryChange} categories={categories}/>
             <AssetList search={search} categories={categories} cards={cards}/>
         </>
     )
