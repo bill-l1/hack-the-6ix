@@ -2,41 +2,49 @@ import React, { useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 
 import AssetList from '../components/AssetList'
+import Filters from '../components/Filters'
 import Header from '../components/Header'
-import Searchbar from '../components/Searchbar'
 
 
 const useStyles = makeStyles({
-    filters: {
-        padding: '20px 5px',
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center'
-    }
 })
 
+const names = ['Aarish', 'Bill', 'Bowen', 'Matthew']
+const categoryNames = ['Property', 'Auto', 'Liability']
+
+let cards = []
+for (let i = 0; i < 20; i++) {
+    let name = names[Math.floor(Math.random() * names.length)]
+    let category = categoryNames[Math.floor(Math.random() * categoryNames.length)]
+
+    cards.push({
+        name: name,
+        category: category
+    })
+}
 
 const Main = (props) => { 
-    const [filters, setFilters] = useState([])
+    const [categories, setCategories] = useState([])
     const [search, setSearch] = useState('')
 
     const classes = useStyles()
 
-    const onSearchbarChange = async (e) => {
+    const onSearchbarChange = (e) => {
         setSearch(e.target.value)
+    }
+
+    const onCategoryChange = (category) => {
+        if (categories.includes(category))
+            setCategories(categories.filter(c => c !== category))
+        else 
+            setCategories([...categories, category])
     }
 
     return (
         <>
             <Header />
-
-            <div className={classes.filters}>
-                <Searchbar onChange={onSearchbarChange} />
-                <p>Filters Go Here</p>
-            </div>
-
-            <AssetList search={search} filters={filters}/>
+            <Filters categoryNames={categoryNames} onSearchbarChange={onSearchbarChange} onCategoryChange={onCategoryChange} categories={categories}/>
+            <AssetList search={search} categories={categories} cards={cards}/>
         </>
     )
 }
