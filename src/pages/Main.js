@@ -1,9 +1,11 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import HomeIcon from '@material-ui/icons/Home'
 import DriveEtaIcon from '@material-ui/icons/DriveEta'
 import GradeIcon from '@material-ui/icons/Grade'
 import EmojiSymbolsIcon from '@material-ui/icons/EmojiSymbols'
+
+import {withFirebase} from '../components/Firebase'
 
 import AssetList from '../components/AssetList'
 import Filters from '../components/Filters'
@@ -35,6 +37,14 @@ for (let i = 0; i < 20; i++) {
 const Main = (props) => { 
     const [categories, setCategories] = useState([])
     const [search, setSearch] = useState('')
+    const [userAuth, setUserAuth] = useState(null);
+
+    useEffect(() => {
+        props.firebase.auth.onAuthStateChanged(user => {
+            user ? setUserAuth(user) : setUserAuth(null)
+            console.log(userAuth);
+        })
+    }, [userAuth])
 
     const classes = useStyles()
 
@@ -58,4 +68,4 @@ const Main = (props) => {
     )
 }
 
-export default Main
+export default withFirebase(Main);
