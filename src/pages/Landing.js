@@ -3,6 +3,8 @@ import MockDesign from '../assets/mock-app-design.jpg'
 import { makeStyles, styled } from '@material-ui/core/styles'
 import { Button, Input, Card, CardContent } from '@material-ui/core'
 import { animateScroll as scroll } from 'react-scroll'
+import * as ROUTES from '../constants/routes'
+import { Link, useHistory } from 'react-router-dom'
 
 import { withFirebase } from '../components/Firebase';
 
@@ -31,6 +33,17 @@ const useStyles = makeStyles({
         '& img': {
             maxWidth: '100%',
             maxHeight: '100%'
+        },
+        '& p': {
+            color: '#2F4F4F',
+            fontSize: '12px' 
+        }
+    },
+    flexDisplay: {
+        display: 'flex',
+        alignItems: 'center',
+        '& p:last-child': {
+            paddingLeft: '100px'
         }
     },
     infoDiv: {
@@ -62,8 +75,8 @@ const AuthInput = styled(Input)({
 
 const MyButton = styled(Button)({
     display: 'flex',
-    background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
-    margin: '15px 0px',
+    background: 'linear-gradient(80deg, #FE6B8B 30%, #FF8E53 90%)',
+    margin: '5px 0 15px 0px',
     border: 0,
     borderRadius: '5px',
     boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
@@ -89,6 +102,7 @@ const Landing = (props) => {
     const [signinError, setSigninError] = useState(null)
 
     const classes = useStyles();
+    const history = useHistory()
 
     const onEmailChange = e => {
         setEmail(e.target.value);
@@ -103,7 +117,7 @@ const Landing = (props) => {
         setPersistence(e.target.value);
     }
 
-    const onFormSubmit = e => {
+    const onSubmit = e => {
         e.preventDefault()
         console.log('logging in')
         
@@ -130,7 +144,7 @@ const Landing = (props) => {
                 <div>
                     <h3>Logo</h3>
                     <h5>A simple way to text, video chat & plan things all in one place</h5>
-                    <form onSubmit={onFormSubmit}>
+                    {/* <form onSubmit={onFormSubmit}>
                         <AuthInput name='email' type='text' onChange={onEmailChange} disableUnderline={true} placeholder='Email'/>
                         <AuthInput name='password' type='password' onChange={onPasswordChange} disableUnderline={true} placeholder='Password'/>
                         <MyButton disabled={email === '' || password === ''} type='submit'>Sign In</MyButton>
@@ -138,7 +152,15 @@ const Landing = (props) => {
                     </form>
                     <input onChange={onCheckboxChange} type='checkbox'/><label>Keep me signed in</label>
                     <p>Forgot password?</p>
-                    <p>Create an account</p>
+                    <p>Create an account</p> */}
+                    <AuthInput name='email' type='text' onChange={onEmailChange} disableUnderline={true} placeholder='Email'/>
+                    <AuthInput name='password' type='password' onChange={onPasswordChange} disableUnderline={true} placeholder='Password'/>
+                    <div className={classes.flexDisplay}>
+                        <input onChange={onCheckboxChange} type='checkbox'/><p>Keep me signed in</p>
+                        <p>Forgot password?</p>
+                    </div>
+                    <MyButton disabled={email === '' || password === ''} onClick={onSubmit}>Sign In</MyButton>
+                    <p>Don't have an account? <Link to={ROUTES.CREATEACCOUNT}>Create an account</Link>, it takes less than a minute</p>
                 </div>
                 <div onClick={() => scroll.scrollToBottom()}>v</div>
             </div>
