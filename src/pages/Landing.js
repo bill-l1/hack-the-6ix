@@ -4,7 +4,7 @@ import { makeStyles, styled } from '@material-ui/core/styles'
 import { Button, Input, Card, CardContent } from '@material-ui/core'
 import { animateScroll as scroll } from 'react-scroll'
 import * as ROUTES from '../constants/routes'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 
 const useStyles = makeStyles({
     signUpDiv: {
@@ -95,6 +95,7 @@ const InfoCards = styled(Card)({
 
 const Landing = () => { 
     const classes = useStyles()
+    const history = useHistory()
 
     return (
         <div>
@@ -111,7 +112,7 @@ const Landing = () => {
                         <input type='checkbox'/><p>Keep me signed in</p>
                         <p>Forgot password?</p>
                     </div>
-                    <MyButton>Sign In</MyButton>
+                    <MyButton onClick={() => history.push(ROUTES.MAIN)}>Sign In</MyButton>
                     <p>Don't have an account? <Link to={ROUTES.CREATEACCOUNT}>Create an account</Link>, it takes less than a minute</p>
                 </div>
                 <div onClick={() => scroll.scrollToBottom()}>v</div>
