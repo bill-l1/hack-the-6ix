@@ -12,7 +12,7 @@ const App = () => {
           <Route
             exact={true} 
             path='/' 
-            render={() => <Landing />}
+            render={() => <Main />}
           />
           <Route
             exact={true} 
