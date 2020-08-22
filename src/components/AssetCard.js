@@ -17,24 +17,37 @@ const useStyles = makeStyles({
     image: {
         objectFit: 'cover',
         height: '100%',
-        width: '100%',
-        paddingTop: '10px'
+        width: '100%'
     },
     infoContainer: {
         height: '30%',
         width: 'auto',
+        position: 'relative',
         padding: '0px 10px',
         display: 'flex',
         flexDirection: 'column',
         flexWrap: 'wrap',
         justifyContent: 'space-between',
         alignItems: 'flex-start',
-        alignContent: 'space-between'
+        alignContent: 'space-between',
+        '& p': {
+            position: 'absolute',
+            margin: '0px',
+            padding: '10px 5px'
+        }
     },
-    infoText: {
-        margin: '0px',
-        padding: '10px 5px'
-    }
+    topText: {
+        top: '0px'
+    },
+    rightText: {
+        right: '0px'
+    },
+    bottomText: {
+        bottom: '0px'
+    },
+    leftText: {
+        left: '0px'
+    },
 })
 
 const AssetCard = ({name, category, date, value}) => { 
@@ -46,10 +59,10 @@ const AssetCard = ({name, category, date, value}) => {
                 <img className={classes.image} src={placeholder} alt={'gone girl 2'} />
             </div>
             <div className={classes.infoContainer}>
-                <p className={classes.infoText}>{name}</p>
-                <p className={classes.infoText}>{category}</p>
-                <p className={classes.infoText}>{date}</p>
-                <p className={classes.infoText}>{value}</p>
+                <p className={`${classes.topText} ${classes.leftText}`}>{name}</p>
+                <p className={`${classes.topText} ${classes.rightText}`}>{category}</p>
+                <p className={`${classes.bottomText} ${classes.leftText}`}>{date}</p>
+                <p className={`${classes.bottomText} ${classes.rightText}`}>{value}</p>
             </div>
         </Paper>
     )
