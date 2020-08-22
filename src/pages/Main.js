@@ -1,25 +1,41 @@
-import React, { useState, useEffect  } from 'react'
-import { makeStyles } from '@material-ui/core/styles';
+import React, { useState, useEffect } from 'react'
+import { makeStyles } from '@material-ui/core/styles'
+import HomeIcon from '@material-ui/icons/Home'
+import DriveEtaIcon from '@material-ui/icons/DriveEta'
+import GradeIcon from '@material-ui/icons/Grade'
+import EmojiSymbolsIcon from '@material-ui/icons/EmojiSymbols'
 
 import {withFirebase} from '../components/Firebase'
 
 import AssetList from '../components/AssetList'
+import Filters from '../components/Filters'
 import Header from '../components/Header'
-import Searchbar from '../components/Searchbar'
 
 
 const useStyles = makeStyles({
-    filters: {
-        padding: '20px 5px',
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center'
-    }
 })
 
+const names = ['Aarish', 'Bill', 'Bowen', 'Matthew']
+const insuranceTypes = [
+    { name: 'Property', icon: <HomeIcon /> },
+    { name: 'Auto', icon: <DriveEtaIcon /> },
+    { name: 'Valuables', icon: <GradeIcon /> },
+    { name: 'Misc.', icon: <EmojiSymbolsIcon /> }
+]
+
+let cards = []
+for (let i = 0; i < 20; i++) {
+    let name = names[Math.floor(Math.random() * names.length)]
+    let category = insuranceTypes[Math.floor(Math.random() * insuranceTypes.length)].name
+
+    cards.push({
+        name: name,
+        category: category
+    })
+}
+
 const Main = (props) => { 
-    const [filters, setFilters] = useState([])
+    const [categories, setCategories] = useState([])
     const [search, setSearch] = useState('')
     const [userAuth, setUserAuth] = useState(null);
 
@@ -32,20 +48,22 @@ const Main = (props) => {
 
     const classes = useStyles()
 
-    const onSearchbarChange = async (e) => {
+    const onSearchbarChange = (e) => {
         setSearch(e.target.value)
+    }
+
+    const onCategoryChange = (category) => {
+        if (categories.includes(category))
+            setCategories(categories.filter(c => c !== category))
+        else 
+            setCategories([...categories, category])
     }
 
     return (
         <>
             <Header />
-
-            <div className={classes.filters}>
-                <Searchbar onChange={onSearchbarChange} />
-                <p>Filters Go Here</p>
-            </div>
-
-            <AssetList search={search} filters={filters}/>
+            <Filters insuranceTypes={insuranceTypes} onSearchbarChange={onSearchbarChange} onCategoryChange={onCategoryChange} categories={categories}/>
+            <AssetList search={search} categories={categories} cards={cards}/>
         </>
     )
 }

@@ -18,28 +18,15 @@ const useStyles = makeStyles({
     }
 })
 
-const names = ['Aarish', 'Bill', 'Bowen', 'Matthew']
-const categories = ['Property', 'Auto', 'Liability']
 
-let cards = []
-for (let i = 0; i < 20; i++) {
-    let name = names[Math.floor(Math.random() * names.length)]
-    let category = categories[Math.floor(Math.random() * categories.length)]
-
-    cards.push({
-        name: name,
-        category: category
-    })
-}
-
-const AssetList = ({search, filters}) => { 
+const AssetList = ({search, categories, cards}) => { 
     const classes = useStyles()
 
     const renderCards = () => {
         return cards
             .filter(card => {
                 let searched = card.name.toLowerCase().includes(search.toLowerCase()) || card.category.toLowerCase().includes(search.toLowerCase())
-                let filtered = filters.length > 0 ? filters.includes(card.category) : true
+                let filtered = categories.length > 0 ? categories.includes(card.category) : true
                 return searched && filtered
             })
             .map(card => (
