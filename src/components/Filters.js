@@ -32,6 +32,7 @@ const useStyles = makeStyles({
     },
     searchBar: {
         marginLeft: '10px',
+        width: '100%'
     }
 })
 
