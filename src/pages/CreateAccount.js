@@ -1,4 +1,5 @@
 import React from 'react'
+import InsurancePlaceholder from '../assets/Insurance-placeholder.png'
 import { makeStyles, styled } from '@material-ui/core/styles'
 import { Input, Button } from '@material-ui/core'
 import { useHistory } from 'react-router-dom'
@@ -27,6 +28,10 @@ const useStyles = makeStyles({
     },
     modalDiv: {
         padding: '15px 30px'
+    },
+    img: {
+        maxHeight: '100%',
+        maxWidth: '100%'
     },
     return: {
         display: 'flex',
@@ -77,7 +82,7 @@ const CreateAccount = (props) => {
         <div className={classes.container}>
             <div className={classes.infoDiv}>
                 <div className={classes.modalDiv}>
-                    LOGO
+                    <img alt='image placeholder' className={classes.img} src={InsurancePlaceholder} />
                 </div>
                 <div className={classes.modalDiv}>
                     <label className={classes.return} onClick={() => history.push(ROUTES.LANDING)}>
