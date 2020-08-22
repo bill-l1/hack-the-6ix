@@ -1,6 +1,8 @@
 import React from 'react'
-import LandingPage from './pages/LandingPage/LandingPage'
-import {BrowserRouter as Router, Switch, Route} from 'react-router-dom'
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+
+import Landing from './pages/Landing'
+import Main from './pages/Main'
 
 const App = () => {
   return (
@@ -10,8 +12,13 @@ const App = () => {
           <Route
             exact={true} 
             path='/' 
-            render={() => <LandingPage />}>
-          </Route>
+            render={() => <Landing />}
+          />
+          <Route
+            exact={true} 
+            path='/main' 
+            render={() => <Main />}
+          />
         </Switch>
       </div>
     </Router>
