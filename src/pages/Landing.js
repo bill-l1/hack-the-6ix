@@ -87,7 +87,7 @@ const Landing = (props) => {
         <div>
             <div className={classes.signUpDiv}>
                 <div>
-                    <img src={MockDesign}></img>
+                    <img alt='mock design' src={MockDesign}></img>
                 </div>
                 <div>
                     <h3>Logo</h3>
