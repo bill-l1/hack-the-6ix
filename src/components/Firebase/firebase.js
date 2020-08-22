@@ -139,6 +139,7 @@ class Firebase {
     getDocuments = (asset_id) => {
         const documents = this.db.collection('documents').where('asset_id', '==', asset_id).get();
         return documents.then(snapshot => {
+            let assets = [];
             snapshot.forEach(doc => {
                 const data = doc.data();
                 data['id'] = doc.id;
