@@ -7,7 +7,7 @@ const App = () => {
         owo
       </header>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App

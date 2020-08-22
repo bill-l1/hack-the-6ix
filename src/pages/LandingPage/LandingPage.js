@@ -1,7 +1,7 @@
 import React from 'react'
 
 const LandingPage = (props) => { 
-    return(
+    return (
         <div>hello</div>
     )
 }
