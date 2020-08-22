@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import * as ROUTES from './constants/routes'
 import Landing from './pages/Landing'
 import Main from './pages/Main'
-
+import CreateAccount from './pages/CreateAccount'
 import { withFirebase } from './components/Firebase'
 
 const App = () => {
@@ -25,7 +25,7 @@ const App = () => {
           <Route
             exact={true} 
             path='/create_account' 
-            render={() => <Landing />}
+            render={() => <CreateAccount />}
           />
         </Switch>
       </div>
