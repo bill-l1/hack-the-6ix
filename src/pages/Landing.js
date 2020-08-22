@@ -2,6 +2,7 @@ import React from 'react'
 import MockDesign from '../assets/mock-app-design.jpg'
 import { makeStyles, styled } from '@material-ui/core/styles'
 import { Button, Input, Card, CardContent } from '@material-ui/core'
+import { DoubleArrow } from '@material-ui/icons';
 import { animateScroll as scroll } from 'react-scroll'
 import * as ROUTES from '../constants/routes'
 import { Link, useHistory } from 'react-router-dom'
@@ -9,7 +10,7 @@ import { Link, useHistory } from 'react-router-dom'
 const useStyles = makeStyles({
     signUpDiv: {
         backgroundColor: '#ededed',
-        padding: '15vh 20vh 10vh 20vh',
+        padding: '15vh 20vh 5vh 20vh',
         display: 'grid',
         gridTemplateColumns: '1fr 1fr',
         alignItems: 'center',
@@ -43,6 +44,10 @@ const useStyles = makeStyles({
         '& p:last-child': {
             paddingLeft: '100px'
         }
+    },
+    scroll: {
+        transform: 'rotate(90deg)',
+        fontSize: '50px'
     },
     infoDiv: {
         padding: '3vh 20vh 7vh 20vh', 
@@ -115,7 +120,7 @@ const Landing = () => {
                     <MyButton onClick={() => history.push(ROUTES.MAIN)}>Sign In</MyButton>
                     <p>Don't have an account? <Link to={ROUTES.CREATEACCOUNT}>Create an account</Link>, it takes less than a minute</p>
                 </div>
-                <div onClick={() => scroll.scrollToBottom()}>v</div>
+                <div onClick={() => scroll.scrollToBottom()}><DoubleArrow className={classes.scroll} /></div>
             </div>
             <div>
                 <h2 style={{'textAlign':'center', 'padding':'2vh 0 0 0'}}>
