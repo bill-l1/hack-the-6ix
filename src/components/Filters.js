@@ -14,7 +14,7 @@ const useStyles = makeStyles({
         alignItems: 'center'
     },
     searchbar: {
-        width: '60%'
+        width: '30%'
     }
 })
 
