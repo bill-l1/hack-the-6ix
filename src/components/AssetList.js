@@ -3,17 +3,24 @@ import { makeStyles } from '@material-ui/core/styles';
 import AssetCard from './AssetCard'
 
 const useStyles = makeStyles({
-    assetList: {
-        padding: '0px 30px',
+    container: {
         display: 'flex',
         flexDirection: 'row',
-        flexWrap: 'wrap',
-        justifyContent: 'flex-start',
-        alignItems: 'center',
-        alignContent: 'space-between', 
+        justifyContent: 'center',
+        flexWrap: 'wrap'
+    },
+    assetList: {
+        padding: '15px 30px',
+        display: 'grid',
+        gridAutoFlow: 'row dense',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+        justifyItems: 'center',
+        justifyContent: 'center',
+        gap: '1em',
+        flex: '1'
     },
     assetGridItem: {
-        padding: '5px 34px',
+
     }
 })
 
@@ -36,8 +43,10 @@ const AssetList = ({search, categories, cards}) => {
     }   
 
     return (
-        <div className={classes.assetList}>
-                {renderCards()}
+        <div className={classes.container}>
+            <div className={classes.assetList}>
+                    {renderCards()}
+            </div>
         </div>
     )
 }

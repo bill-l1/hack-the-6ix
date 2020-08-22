@@ -9,6 +9,7 @@ import {withFirebase} from '../components/Firebase'
 
 import AssetList from '../components/AssetList'
 import Filters from '../components/Filters'
+import FloatingActionButtons from '../components/FloatingActionButtons'
 import Header from '../components/Header'
 
 
@@ -27,7 +28,6 @@ const insuranceTypes = [
 // for (let i = 0; i < 20; i++) {
 //     let name = names[Math.floor(Math.random() * names.length)]
 //     let category = insuranceTypes[Math.floor(Math.random() * insuranceTypes.length)].name
-
 //     cards.push({
 //         name: name,
 //         category: category
@@ -74,6 +74,7 @@ const Main = ({firebase}) => {
             <Header />
             <Filters insuranceTypes={insuranceTypes} onSearchbarChange={onSearchbarChange} onCategoryChange={onCategoryChange} categories={categories}/>
             <AssetList search={search} categories={categories} cards={cards}/>
+            <FloatingActionButtons />
         </>
     )
 }
