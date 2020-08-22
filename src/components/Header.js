@@ -6,14 +6,15 @@ import UserInfo from '../components/UserInfo'
 
 const useStyles = makeStyles({
     header: {
-        height: '15vh',
-        padding: '5px 50px',
+        height: '8vh',
+        background: '#2fb6a9',
+        color: 'white',
+        padding: '0px 50px',
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
         alignContent: 'center',
-        border: '1px black solid'
     }
 })
 

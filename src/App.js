@@ -4,6 +4,7 @@ import * as ROUTES from './constants/routes'
 import Landing from './pages/Landing'
 import Main from './pages/Main'
 import CreateAccount from './pages/CreateAccount'
+import Profile from './pages/Profile'
 
 import { withFirebase } from './components/Firebase'
 
@@ -27,6 +28,11 @@ const App = () => {
             exact={true} 
             path={ROUTES.CREATEACCOUNT}
             component={CreateAccount}
+          />
+          <Route
+            exact={true} 
+            path={ROUTES.PROFILE}
+            component={Profile}
           />
         </Switch>
       </div>
