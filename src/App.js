@@ -26,7 +26,7 @@ const App = () => {
           <Route
             exact={true} 
             path={ROUTES.CREATEACCOUNT}
-            render={() => <CreateAccount />}
+            component={CreateAccount}
           />
         </Switch>
       </div>
