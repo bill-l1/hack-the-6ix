@@ -1,24 +1,28 @@
 import React from 'react'
-import { BrowserRouter as Router, Route} from 'react-router-dom'
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 
-import Navigation from './components/Navigation/Navigation'
-import Landing from './components/Landing/Landing';
-
-import * as ROUTES from './constants/routes'
+import Landing from './pages/Landing'
+import Main from './pages/Main'
 
 const App = () => {
-  return (  
-    <div className="App">
-      <header className="App-header">
-        owo
-      </header>
-      <Router>
-      <Navigation />  
-      <hr />
-      <Route path={ROUTES.LANDING} component={Landing} />
+  return (
+    <Router>
+      <div className="App">
+        <Switch>
+          <Route
+            exact={true} 
+            path='/' 
+            render={() => <Landing />}
+          />
+          <Route
+            exact={true} 
+            path='/main' 
+            render={() => <Main />}
+          />
+        </Switch>
+      </div>
     </Router>
-    </div>
-  )
+  );
 }
 
 export default App
