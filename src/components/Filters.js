@@ -6,11 +6,18 @@ import TextField from '@material-ui/core/TextField'
 
 const useStyles = makeStyles({
     filters: {
-        padding: '20px 5px',
         display: 'flex',
-        flexDirection: 'row',
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        position: 'sticky',
+        zIndex: 1,
+        top: '30px', 
+        background: '#fff',
+        border: '1px solid black',
+        borderRadius: '5px',
+        width: '80%',
+        margin: '15px auto 15px auto',
+        padding: '5px 20px',
     },
     searchbar: {
         width: '30%'
