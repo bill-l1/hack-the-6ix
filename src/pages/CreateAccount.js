@@ -82,7 +82,7 @@ const CreateAccount = (props) => {
         <div className={classes.container}>
             <div className={classes.infoDiv}>
                 <div className={classes.modalDiv}>
-                    <img alt='image placeholder' className={classes.img} src={InsurancePlaceholder} />
+                    <img alt='placeholder' className={classes.img} src={InsurancePlaceholder} />
                 </div>
                 <div className={classes.modalDiv}>
                     <label className={classes.return} onClick={() => history.push(ROUTES.LANDING)}>

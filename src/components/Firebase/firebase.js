@@ -2,7 +2,7 @@ import app from 'firebase/app'
 import 'firebase/auth';
 
 const config = {
-    apiKey: 'AIzaSyCA4mKw_Jb7K7SeL32KDNoaMiF_AGfbqqk',
+    apiKey: process.env.REACT_APP_API_KEY,
     authDomain: process.env.REACT_APP_AUTH_DOMAIN,
     databaseURL: process.env.REACT_APP_DATABASE_URL,
     projectId: process.env.REACT_APP_PROJECT_ID,
