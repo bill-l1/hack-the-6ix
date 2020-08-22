@@ -1,8 +1,8 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button'
-import TextField from '@material-ui/core/TextField'
-
+import Input from '@material-ui/core/Input'
+import SearchIcon from '@material-ui/icons/Search';
 
 const useStyles = makeStyles({
     filters: {
@@ -15,17 +15,31 @@ const useStyles = makeStyles({
         background: '#fff',
         border: '1px solid black',
         borderRadius: '5px',
-        width: '80%',
+        width: '90%',
         margin: '15px auto 15px auto',
-        padding: '5px 20px',
+        padding: '10px 20px',
     },
-    searchbar: {
-        width: '30%'
+    stickySearch: {
+        border: style => style.border,
+    },
+    searchDiv: {
+        width: '40%',
+        display: 'flex',
+        alignItems: 'center',
+        marginRight: 'auto',
+        padding: '10px 15px',
+        background: '#f2f2f2',
+    },
+    searchBar: {
+        marginLeft: '10px',
     }
 })
 
 const Filters = ({insuranceTypes, onSearchbarChange, onCategoryChange, categories}) => { 
-    const classes = useStyles()
+    
+    const [headerSticky, setHeaderSticky] = useState(0)
+    const [style, setStyle] = useState()
+    const classes = useStyles(style)
 
     const categoryButtons = insuranceTypes.map(category => {
         return (
@@ -38,14 +52,36 @@ const Filters = ({insuranceTypes, onSearchbarChange, onCategoryChange, categorie
         </Button>
     )})
 
+    useEffect(() => {
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 48) {
+                setHeaderSticky(1)
+            } else {
+                setHeaderSticky(0)
+            }
+        })
+    })
+
+    useEffect(() => {
+        if (headerSticky === 0) {
+            setStyle({ border: 'none' })
+        }
+        if (headerSticky === 1) {
+            setStyle({ border: '1px solid black' })
+        }
+    }, [headerSticky])
+
     return (
-        <div className={classes.filters}>
-            <TextField 
-                className={classes.searchbar}
-                label='Search'
-                variant='outlined'
-                onChange={onSearchbarChange}
-            />
+        <div className={`${classes.filters} ${classes.stickySearch}`}>
+            <div className={classes.searchDiv}>
+                <SearchIcon />
+                <Input
+                    onChange={onSearchbarChange}
+                    disableUnderline={true}
+                    placeholder='Search'
+                    className={classes.searchBar}
+                />
+            </div>
             {categoryButtons}
         </div>
     )
