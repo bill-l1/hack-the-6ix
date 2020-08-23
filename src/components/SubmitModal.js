@@ -1,6 +1,11 @@
 import React, { useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import Modal from '@material-ui/core/Modal'
+import TextField from '@material-ui/core/TextField'
+import { MuiPickersUtilsProvider, KeyboardDatePicker, KeyboardTimePicker } from '@material-ui/pickers'
+import DateFnsUtils from '@date-io/date-fns';
+import Fab from '@material-ui/core/Fab'
+import PublishIcon from '@material-ui/icons/Publish'
 
 import CategorySelect from './forms/CategorySelect'
 import ProviderSelect from './forms/ProviderSelect'
@@ -18,7 +23,7 @@ const useStyles = makeStyles({
         marginLeft: '-40vw',
         backgroundColor: 'white',
         display: 'grid',
-        gridTemplateColumns: '1.4fr 0.6fr',
+        gridTemplateColumns: '1.2fr 0.6fr',
         gridTemplateRows: '0.3fr 2.4fr 0.3fr',
         gap: '1px 1px',
         gridTemplateAreas: `
@@ -32,7 +37,11 @@ const useStyles = makeStyles({
         padding: '0 25px'
     },
     form: {
-        gridArea: 'form'
+        gridArea: 'form',
+        padding: '5px 25px',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-evenly' 
     },
     formFooter: {
         gridArea: 'form-footer',
@@ -43,36 +52,57 @@ const useStyles = makeStyles({
         alignItems: 'center',
         alignContent: 'center'
     },
+    pickers: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-evenly'
+    },
     assetListHeader: {
-        gridArea: 'asset-list-header'
+        gridArea: 'asset-list-header',
+        paddingRight: '15px'
     },
     assetList: {
-        gridArea: 'asset-list'  
+        gridArea: 'asset-list',
+        paddingRight: '15px',
     },
     submit: {
-        gridArea: 'submit'
+        gridArea: 'submit',
+        display: 'flex',
+        justifyContent: 'flex-end',
+        alignItems: 'flex-end',
+        padding: '30px 35px'
     },
     templatedTextColour: {
         color: '#4287f5'
     },
     subheading: {
         paddingLeft: '45px'
+    },
+    datetime: {
+        width: '40%', 
+        margin: '5px'
+    },
+    textArea: {
+        padding: '5px 0px'
     }
 })
 
-const SubmitModal = ({open, onClose, selectedCardIds}) => { 
+const SubmitModal = ({open, onClose, selectedCards}) => { 
     const [category, setCategory] = useState('Property')
     const [provider, setProvider] = useState('Intact')
+    const [accountInfo, setAccountInfo] = useState('')
+    const [policyInfo, setPolicyInfo] = useState('')
+    const [dateInfo, setDateInfo] = useState(new Date())
+    const [additionalInfo, setAdditionalInfo] = useState('')
 
     const classes = useStyles()
 
-    const onCategorySelectChange = e => {
-        setCategory(e.target.value)
-    }
-
-    const onProviderSelectChange = e => {
-        setProvider(e.target.value)
-    }
+    const onCategorySelectChange = e => setCategory(e.target.value)
+    const onProviderSelectChange = e => setProvider(e.target.value)
+    const onAccountInfoChange = e => setAccountInfo(e.target.value)
+    const onPolicyInfoChange = e => setPolicyInfo(e.target.value)
+    const onDateInfoChange = d => setDateInfo(d)
+    const onAdditionalInfoChange = e => setAdditionalInfo(e.target.value)
 
     return (
         <Modal open={open} onClose={onClose}>
@@ -86,9 +116,71 @@ const SubmitModal = ({open, onClose, selectedCardIds}) => {
                     </h1>
                 </div>
 
+
                 <div className={classes.form}>
-                    
-                    
+                    <h2 className={classes.subheading}>
+                        Personal Details:
+                    </h2>
+
+                    <TextField
+                        className={classes.textArea}
+                        multiline
+                        label='Account Information'
+                        value={accountInfo}
+                        onChange={onAccountInfoChange}
+                        variant='outlined'
+                        fullWidth
+                        required
+                        rows={3}
+                    />
+                    <TextField
+                        multiline
+                        className={classes.textArea}
+                        label='Policy Information'
+                        value={policyInfo}
+                        onChange={onPolicyInfoChange}
+                        variant='outlined'
+                        fullWidth
+                        required
+                        rows={3}
+                    />
+
+                    <h2 className={classes.subheading}>
+                        Incident Details:
+                    </h2>
+                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                        <div className={classes.pickers}>
+                            <KeyboardDatePicker
+                                className={classes.datetime}
+                                disableToolbar
+                                variant="inline"
+                                format="MM/dd/yyyy"
+                                margin="normal"
+                                label="Incident Date"
+                                value={dateInfo}
+                                onChange={onDateInfoChange}
+                                />
+                            <KeyboardTimePicker
+                                className={classes.datetime}
+                                margin="normal"
+                                variant="inline"
+                                label="Approximate Incident Time"
+                                value={dateInfo}
+                                onChange={onDateInfoChange}
+                            />
+                        </div>
+                    </MuiPickersUtilsProvider>
+                    <TextField
+                        multiline
+                        className={classes.textArea}
+                        label='Additional Info'
+                        value={additionalInfo}
+                        onChange={onAdditionalInfoChange}
+                        variant='outlined'
+                        fullWidth
+                        required
+                        rows={3}
+                    />
                 </div>
 
                 <div className={classes.formFooter}>
@@ -99,16 +191,19 @@ const SubmitModal = ({open, onClose, selectedCardIds}) => {
 
                 <div className={classes.assetListHeader}> 
                     <h1>
-                        These are the assets you will be submitting
+                        Heres what you're submitting
                     </h1>
                 </div>
 
                 <div className={classes.assetList}> 
-                    <AssetReviewList selectedCardIds={selectedCardIds} />
+                    <AssetReviewList selectedCards={selectedCards} />
                 </div>
 
                 <div className={classes.submit}> 
-                    submit
+                    <Fab color="primary" variant='extended'>
+                        <PublishIcon />
+                        Submit
+                    </Fab>
                 </div>
             </div>
         </Modal>

@@ -9,9 +9,6 @@ import Header from '../components/Header'
 import SubmitModal from '../components/SubmitModal'
 
 
-const useStyles = makeStyles({
-})
-
 const Main = ({firebase}) => { 
     const [categories, setCategories] = useState([])
     const [search, setSearch] = useState('')
@@ -35,29 +32,24 @@ const Main = ({firebase}) => {
             }
         })
     }, [userAuth])
-
-    const classes = useStyles()
-
-    const onSearchbarChange = e => {
-        setSearch(e.target.value)
-    }
-
+    
     const onCategoryChange = category => {
         if (categories.includes(category))
-            setCategories(categories.filter(c => c !== category))
+        setCategories(categories.filter(c => c !== category))
         else 
-            setCategories([...categories, category])
+        setCategories([...categories, category])
     }
-
+    
     const onSelectionChange = (checked, id) => {
         if (checked)
-            setSelectedCardIds([...selectedCardIds, id])
+        setSelectedCardIds([...selectedCardIds, id])
         else
-            setSelectedCardIds(selectedCardIds.filter(c_id => c_id !== id))
+        setSelectedCardIds(selectedCardIds.filter(c_id => c_id !== id))
     }
-
-    const onSubmitPress = () => { setSubmitModalOpen(true) }
-    const onSubmitModalClose = () => { setSubmitModalOpen(false) }
+    
+    const onSearchbarChange = e => setSearch(e.target.value)
+    const onSubmitPress = () => setSubmitModalOpen(true)
+    const onSubmitModalClose = () => setSubmitModalOpen(false)
 
     return (
         <>
@@ -65,7 +57,7 @@ const Main = ({firebase}) => {
             <Filters onSearchbarChange={onSearchbarChange} onCategoryChange={onCategoryChange} categories={categories}/>
             <AssetList search={search} categories={categories} cards={cards} onSelectionChange={onSelectionChange}/>
             <FloatingActionButtons onSubmitPress={onSubmitPress} />
-            <SubmitModal open={submitModalOpen} onClose={onSubmitModalClose} selectedCardIds={selectedCardIds}/>
+            <SubmitModal open={submitModalOpen} onClose={onSubmitModalClose} selectedCards={cards.filter(card => selectedCardIds.includes(card.id))}/>
         </>
     )
 }
