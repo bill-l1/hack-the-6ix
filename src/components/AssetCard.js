@@ -67,8 +67,6 @@ const useStyles = makeStyles({
 })
 
 const AssetCard = ({name, category, date, value, id, thumbnailUrl, onClick, onSelectionChange}) => { 
-    const classes = useStyles()
-
     const [checked, setChecked] = useState(false)
 
     useEffect(() => {

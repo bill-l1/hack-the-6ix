@@ -25,7 +25,7 @@ const FloatingActionButtons = ({onAddAssetPress, onSubmitPress, onGetInfoPress})
     return (
         <div className={classes.iconContainer}>
             <Tooltip title='Add an asset to your collection' placement='top'>
-                <Fab color="primary" aria-label="add-asset">
+                <Fab color="primary" aria-label="add-asset" onClick={onAddAssetPress}>
                     <PostAddIcon />
                 </Fab>
             </Tooltip>

@@ -7,6 +7,7 @@ import Filters from '../components/Filters'
 import FloatingActionButtons from '../components/FloatingActionButtons'
 import Header from '../components/Header'
 import Info from '../components/Info'
+import AssetModal from '../components/AssetModal'
 import SubmitModal from '../components/SubmitModal'
 
 const useStyles = makeStyles({
@@ -211,7 +212,7 @@ const Main = ({firebase}) => {
         return {docs:docs, pendingDocs:pendingDocs};
     }
 
-    onst onSelectionChange = (checked, id) => {
+    const onSelectionChange = (checked, id) => {
         if (checked)
         setSelectedCardIds([...selectedCardIds, id])
         else
@@ -241,7 +242,7 @@ const Main = ({firebase}) => {
             <Header />
             <Filters onSearchbarChange={onSearchbarChange} onCategoryChange={onCategoryChange} categories={categories}/>
             <AssetList search={search} categories={categories} cards={cards} modalFunc={loadModalFromCard} onSelectionChange={onSelectionChange}/>
-            <FloatingActionButtons onSubmitPress={onSubmitPress} onGetInfoPress={onGetInfoPress}/>
+            <FloatingActionButtons onAddAssetPress={()=>{showAssetModal(true)}} onSubmitPress={onSubmitPress} onGetInfoPress={onGetInfoPress}/>
             <Info open={submitInfoOpen} onClose={onInfoClose}/>
             <AssetModal 
                 getAssetData={getAssetData}
@@ -256,7 +257,6 @@ const Main = ({firebase}) => {
                 ref={assetModalRef}
             />
             <SubmitModal open={submitModalOpen} onClose={onSubmitModalClose} selectedCards={cards.filter(card => selectedCardIds.includes(card.id))}/>
-            <button onClick={()=>{showAssetModal(true)}}>Create Asset</button>
         </div>
     )
 }
