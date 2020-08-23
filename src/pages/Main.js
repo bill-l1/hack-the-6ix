@@ -6,7 +6,7 @@ import AssetList from '../components/AssetList'
 import Filters from '../components/Filters'
 import FloatingActionButtons from '../components/FloatingActionButtons'
 import Header from '../components/Header'
-
+import Info from '../components/Info'
 
 const useStyles = makeStyles({
 })
@@ -26,8 +26,9 @@ const names = ['Aarish', 'Bill', 'Bowen', 'Matthew']
 const Main = ({firebase}) => { 
     const [categories, setCategories] = useState([])
     const [search, setSearch] = useState('')
-    const [cards, setCards] = useState([]);
-    const [userAuth, setUserAuth] = useState(null);
+    const [cards, setCards] = useState([])
+    const [userAuth, setUserAuth] = useState(null)
+    const [submitInfoOpen, setInfoOpen] = useState(false)
 
     useEffect(() => {
         firebase.auth.onAuthStateChanged(user => {
@@ -58,12 +59,16 @@ const Main = ({firebase}) => {
             setCategories([...categories, category])
     }
 
+    const onGetInfoPress = () => { setInfoOpen(true) }
+    const onInfoClose = () => { setInfoOpen(false) }
+
     return (
         <>
             <Header />
             <Filters onSearchbarChange={onSearchbarChange} onCategoryChange={onCategoryChange} categories={categories}/>
             <AssetList search={search} categories={categories} cards={cards}/>
-            <FloatingActionButtons />
+            <FloatingActionButtons onGetInfoPress={onGetInfoPress}/>
+            <Info open={submitInfoOpen} onClose={onInfoClose}/>
         </>
     )
 }
