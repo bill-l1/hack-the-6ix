@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import { loadCSS } from 'fg-loadcss';
 import Paper from '@material-ui/core/Paper'
+import CardActionArea from '@material-ui/core/CardActionArea'
 import Checkbox from '@material-ui/core/Checkbox'
 import Icon from '@material-ui/core/Icon'
 
@@ -65,7 +66,7 @@ const useStyles = makeStyles({
     },
 })
 
-const AssetCard = ({name, category, date, value, id, onSelectionChange}) => { 
+const AssetCard = ({name, category, date, value, id, thumbnailUrl, onClick, onSelectionChange}) => { 
     const [checked, setChecked] = useState(false)
 
     useEffect(() => {
@@ -92,28 +93,31 @@ const AssetCard = ({name, category, date, value, id, onSelectionChange}) => {
         onSelectionChange(e.target.checked, id)
         setChecked(e.target.checked)
     }
-    
+
     return (
-        <Paper className={classes.card} elevation={2}>
-            <div className={classes.imageContainer}>
-                <img className={classes.image} src={placeholder} alt={'gone girl 2'} />
-            </div>
-            <Checkbox 
-                className={classes.checkbox}
-                icon={<Icon className='fas fa-square' />}
-                color='default'
-                size='medium'
-                checked={checked}
-                onChange={onCheckboxChange}
-            />
-            <div className={classes.infoContainer}>
-                <h4 className={`${classes.topText} ${classes.leftText}`}> {name} </h4>
-                {getCategoryIcon()}
-                <h4 className={`${classes.bottomText} ${classes.leftText}`}> {date} </h4>
-                <h4 className={`${classes.bottomText} ${classes.rightText}`}> {'$'+value} </h4>
-            </div>
+            <Paper className={classes.card} elevation={2}>
+            <CardActionArea onClick={onClick}>
+                <div className={classes.imageContainer}>
+                    <img className={classes.image} src={thumbnailUrl || placeholder} alt={'gone girl 2'} />
+                </div>
+                <Checkbox 
+                    className={classes.checkbox}
+                    icon={<Icon className='fas fa-square' />}
+                    color='default'
+                    size='medium'
+                    checked={checked}
+                    onChange={onCheckboxChange}
+                />
+                <div className={classes.infoContainer}>
+                    <h4 className={`${classes.topText} ${classes.leftText}`}> {name} </h4>
+                    {getCategoryIcon()}
+                    <h4 className={`${classes.bottomText} ${classes.leftText}`}> {date} </h4>
+                    <h4 className={`${classes.bottomText} ${classes.rightText}`}> {'$'+value} </h4>
+                </div>
+            </CardActionArea>
         </Paper>
     )
 }
 
 export default AssetCard
+

@@ -90,20 +90,17 @@ class Firebase {
         })
     }
 
-    addAsset = (name, value, category) => {
+    addAsset = data => {
         const uid = this.auth.currentUser.uid
         const obj = {
-            data: {
-                name: name,
-                value: value,
-                category: category
-            },
+            data: data,
             doc_ids: [],
             thumbnail: null,
             uid: uid
         }
-        const asset = this.db.collection('assets').doc().set(obj)
-        return asset;
+        return this.db.collection('assets').add(obj).then(assetRef => {
+            return assetRef.id;
+        })
     }
 
     removeAsset = (id) => {
@@ -153,23 +150,43 @@ class Firebase {
         // const uid = this.auth.currentUser.uid
     }
 
-    addDocument = (file, filename, asset_id, description) => {
-        const uid = this.auth.currentUser.uid
+    getDocumentUrl = (doc_id) => {
+        const uid = this.auth.currentUser.uid //
+        return this.storage.ref(`documents/${uid}/${doc_id}`).list({maxResults:1}).then(res => {
+            // console.log("URLS",res.items);
+            // if(res.items[0] == undefined) return false
+            const imageRef = res.items[0]
+            return imageRef.getDownloadURL().then(url => {
+                return url
+            })
+        });
+    }
 
-        return this.db.collection('documents').doc().set({
+    addDocument = (asset_id, description) => {
+        const uid = this.auth.currentUser.uid
+        return this.db.collection('documents').add({
             asset_id: asset_id,
             description: description,
             timestamp: app.firestore.FieldValue.serverTimestamp(),
             uid: uid
-        }).then(docRef => {
-            const doc_id = docRef.id;
-            return this.storage.ref().child(`${uid}/${doc_id}/${filename}`).put(file) //task
-        });
+        })
+    }
+
+    addDocumentToAsset = (asset_id, doc_id) => {
+        return this.db.collection('assets').doc(asset_id).set({
+            doc_ids: [doc_id]
+        }, {merge: true})
+    }
+
+    uploadDocument = (file, filename, doc_id, next, error, complete) => {
+        const uid = this.auth.currentUser.uid
+        const task = this.storage.ref().child(`documents/${uid}/${doc_id}/${filename}`).put(file)
+        task.on('state_changed', next, error, complete)
+        return task
     }
 
     removeDocument = id => {
         const uid = this.auth.currentUser.uid
-
         return this.db.collection('documents').doc(id).delete().then(docRef => {
             const doc_id = docRef.id;
             return this.storage.ref().child(`${uid}/${doc_id}`).delete();

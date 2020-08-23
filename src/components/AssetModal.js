@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState, useImperativeHandle, forwardRef, useEffect } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import Modal from '@material-ui/core/Modal'
 import Input from '@material-ui/core/Input'
@@ -48,50 +48,42 @@ const useStyles = makeStyles((theme) => ({
     },
   }));
 
-const AssetInfo = (props) => {
+const AssetInfo = ({getData, handleData, handleFiles}) => {
     const classes = useStyles();
 
-    const [value, setValue] = React.useState('');
+    const getToolTip = cat => {
+        switch (cat){
+            case 'Property': 
+                return 'Details may include location, years of inhabitance, date of construction, and more.'
+            case 'Auto':
+                return 'Details may include model, brand, mileage, number of drivers, and more.'
+            case 'Valuables':
+                return 'Details may include model, serial number, brand, source of purchase, and more.'
+            case 'Misc.':
+                return 'Details may include model, serial number, brand, source of purchase, and more.'
+            default:
+                return 'Details may include model, serial number, brand, source of purchase, and more.'
+        }
+    }
 
-    const handleChange = (event) => {
-      setValue(event.target.value);
-    }
-    
-    const getToolTip = () => {
-        if (value == 'Property') {
-            return 'Details may include location, years of inhabitance, date of construction, and more.'
-        }
-        if (value == 'Auto') {
-            return 'Details may include model, brand, mileage, number of drivers, and more.'
-        }
-        if (value == 'Valuable') {
-            return 'Details may include model, serial number, brand, source of purchase, and more.'
-        }
-        if (value == 'Misc.') {
-            return 'Details may include model, serial number, brand, source of purchase, and more.'
-        }
-        else {
-            return 'Details may include model, serial number, brand, source of purchase, and more.'
-        }
-    }
+    const data = getData();
 
     return (
         <form className={classes.info}>
             <label> Name:
                 <Input
-                    defaultValue = {props.name}
-                    onChange={event => {
-                        console.log(event.target.value)
-                    }}
+                    name='name'
+                    defaultValue = {data.name}
+                    onChange={handleData}
                 /> 
             </label>
             <label> Category:
                 <Select
+                    name='category'
                     labelId='Category'
-                    id='category'
                     autoWidth = {true}
-                    value={value}
-                    onChange={handleChange}
+                    defaultValue={data.category}
+                    onChange={handleData}
                 >
                     <MenuItem value={'Property'}>Property</MenuItem>
                     <MenuItem value={'Auto'}>Auto</MenuItem>
@@ -101,48 +93,51 @@ const AssetInfo = (props) => {
             </label>
             <label> Quantity:
                 <Input
-                    defaultValue = {props.quantity}
-                    onChange={event => {
-                        console.log(event.target.value)
-                    }}
+                    name='quantity'
+                    defaultValue = {data.quantity}
+                    onChange={handleData}
                 /> 
             </label>
             <label> Purchase Date: 
                 <Input
-                    defaultValue = {props.date}
-                    onChange={event => {
-                        console.log(event.target.value)
-                    }}
+                    name='date'
+                    type='date'
+                    defaultValue = {data.date}
+                    onChange={handleData}
                 />
             </label>
             <label> Paid Price: 
                 <Input
-                    defaultValue = {props.price}
-                    onChange={event => {
-                        console.log(event.target.value)
-                    }}
+                    name = 'value'
+                    defaultValue = {data.value}
+                    onChange={handleData}
                 />
             </label>
             <label> Additional Information: </label>
             <TextField
-                    id='additional-info'
-                    multiline
-                    rowsMax={10}
-                    helperText={getToolTip()}
-                    onChange={event => {
-                        console.log(event.target.value)
-                    }}
-                    />
+                name='description'
+                multiline
+                rowsMax={10}
+                helperText={getToolTip(data.category)}
+                onChange={handleData}
+                />
+
             <input accept="image/*"
                 className={classes.input}
                 style={{ display: 'none' }}
-                id="add-image"
-                multiple type="file" />
+                id='add-image'
+                name="addImage"
+                multiple type="file" 
+                onChange={handleFiles}
+            />
             <input accept="all/*"
                 className={classes.input}
                 style={{ display: 'none' }}
-                id="add-docs"
-                multiple type="file" />
+                id='add-docs'
+                name="addDoc"
+                multiple type="file"
+                onChange={handleFiles}
+            />
             <label htmlFor="add-image">
                 <Button variant = "contained" component="span" className={classes.button}>
                     Add Pictures
@@ -172,89 +167,131 @@ const ZoomImg = (props) => {
 }
 */
 
-const AssetPics = (props) => {
+const AssetPics = ({docs, pendingDocs}) => {
     const classes = useStyles();
-
+    console.log('REAL DOCS', JSON.parse(JSON.stringify(docs)));
+    console.log('PENDING DOCS', JSON.parse(JSON.stringify(pendingDocs)));
     return (
       <div className={classes.gridList}>
         <GridList cellHeight={300} spacing={1} className={classes.gridList}>
-          {tileData.map((tile) => (
-            <GridListTile cols={tile.featured ? 2 : 1} rows={tile.featured ? 2 : 1} //onClick={ZoomImg}
-            >
-              <img src={tile.img} alt={tile.title} />
-              <GridListTileBar
-                title={tile.title}
-                titlePosition="top"
-                actionPosition="left"
-                className={classes.titleBar}
-              />
+          {docs.map((doc) => (
+            <GridListTile cols={2} rows={2} key={doc.id}>
+                <a href={doc.url}><img src={doc.url || 'car.jpg'} alt={'document'} /></a>
+                <GridListTileBar
+                    title={'obama'}
+                    titlePosition="top"
+                    actionPosition="left"
+                    className={classes.titleBar}
+                />
             </GridListTile>
           ))}
+          {pendingDocs.map((file) => {
+              let tempPath = URL.createObjectURL(file);
+              return (
+                <GridListTile cols={1} rows={1}>
+                    <img src={tempPath} alt={'document'} />
+                    <GridListTileBar
+                        title={file.name}
+                        titlePosition="top"
+                        actionPosition="left"
+                        className={classes.titleBar}
+                    />
+                </GridListTile>
+            )
+          })}
         </GridList>
       </div>
     );
   }
 
-const AssetModal = (props) => {
+const AssetModal = ({getAssetData, setAssetData, getAllDocs, defaultValues, updateAsset, addPendingDocs, setPendDocs, setAssetDocs, uploadPercent}, ref) => {
     const classes = useStyles();
+    const [open, setOpen] = useState(false);
+    const [isNew, setIsNew] = useState(true);
+    const [isChanged, setIsChanged] = useState(false);
+    const [data, setData] = useState(getAssetData());
+    const [allDocs, setAllDocs] = useState(getAllDocs());
 
-    const [open, setOpen] = React.useState(false);
+    
+    const handleDataChange = e => {
+        setIsChanged(true);
+        setAssetData({...getAssetData(), [e.target.name]:e.target.value});
+        setData({...getAssetData(), [e.target.name]:e.target.value});
+    }
+    
+    const handleFiles = e => {
+        console.log(e.target.files);
+        addPendingDocs(e.target.files);
+    }
 
-    const handleOpen = () => {
+    const handleOpen = (isNewAsset=true) => {
+        setIsNew(isNewAsset);
         setOpen(true);
     };
 
-    const handleClose = () => {
-        /*
-        if (changes were made) {
-            show confirm discard changes popup
+    useImperativeHandle(ref, () => ({
+        open(isNewAsset=true) {
+            handleOpen(isNewAsset)
+        },
+
+        close(isSave=false) {
+            handleClose(isSave)
+        },
+      }));
+
+    const handleClose = (isSave=false) => {
+        if (isChanged && !isSave) {
+            if(!window.confirm('Do you want to discard your changes?')) return
         }
-        else {
-            setOpen(false);
-        } */
         setOpen(false);
+        setAssetData(defaultValues);
+        setData(defaultValues);
+        setPendDocs([]);
+        setAssetDocs([]);
     };
 
     const handleSave = () => {
-        /*
-        if (changes were made) {
-            update values
-        } */
-        setOpen(false);
+        if (isChanged){
+            updateAsset(getAssetData(), isNew);
+            console.log('ASSET DATA', getAssetData());
+        }
     }
 
+    useEffect(()=> {}, [open])
+
     return (
-        <div>
-            <button type="button" onClick={handleOpen}>
-                Create Asset
-            </button>
-            <div className={classes.root}>
-                <Modal
-                    open={open}
-                    onClose={handleClose}
-                    aria-labelledby="simple-modal-title"
-                    aria-describedby="simple-modal-description"
-                    className={classes.modal}>
-                    <div className={classes.paper}>
-                        <div >
-                            <AssetInfo />
+        <div className={classes.root}>
+            <Modal
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="simple-modal-title"
+                aria-describedby="simple-modal-description"
+                className={classes.modal}>
+                    {uploadPercent ?
+                    (
+                        <div>{uploadPercent && <p>{uploadPercent}</p>}</div>
+                    ) : (
+                        <div className={classes.paper}>
+                            <div>
+                                <AssetInfo getData={getAssetData} handleData={handleDataChange} handleFiles={handleFiles} />
+                            </div>
+                            <div>
+                                <AssetPics docs={getAllDocs().docs} pendingDocs={getAllDocs().pendingDocs} />
+                            </div>
+                            <div className={classes.button}>
+                            <Button type="button" onClick={()=> {handleClose(false)}}>
+                                Cancel
+                            </Button>
+                            <Button type="submit" onClick={handleSave}>
+                                Save
+                            </Button>
+                            </div>
                         </div>
-                        <div>
-                            <AssetPics />
-                        </div>
-                        <div className={classes.button}>
-                        <Button type="button" onClick={handleClose}>
-                            Cancel
-                        </Button>
-                        <Button type="submit" onClick={handleClose}>
-                            Save
-                        </Button>
-                        </div>
-                    </div>
+                    )
+                    }
             </Modal>
-            </div>
         </div>
     )
 }
 
-export default AssetModal
+export default forwardRef(AssetModal);
