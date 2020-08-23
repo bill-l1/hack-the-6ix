@@ -1,4 +1,4 @@
-import React, {useState, useImperativeHandle, forwardRef } from 'react'
+import React, {useState, useImperativeHandle, forwardRef, useEffect } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import Modal from '@material-ui/core/Modal'
 import Input from '@material-ui/core/Input'
@@ -169,6 +169,7 @@ const ZoomImg = (props) => {
 
 const AssetPics = ({docs, pendingDocs}) => {
     const classes = useStyles();
+    console.log('REAL DOCS', JSON.parse(JSON.stringify(docs)));
     console.log('PENDING DOCS', JSON.parse(JSON.stringify(pendingDocs)));
     return (
       <div className={classes.gridList}>
@@ -203,21 +204,19 @@ const AssetPics = ({docs, pendingDocs}) => {
     );
   }
 
-const AssetModal = ({assetData, assetDocs, defaultValues, updateAsset, addPendingDocs, uploadPercent}, ref) => {
+const AssetModal = ({getAssetData, setAssetData, getAllDocs, defaultValues, updateAsset, addPendingDocs, setPendDocs, setAssetDocs, uploadPercent}, ref) => {
     const classes = useStyles();
     const [open, setOpen] = useState(false);
     const [isNew, setIsNew] = useState(true);
-    const [data, setData] = useState(assetData);
-    const [allDocs, setAllDocs] = useState(assetDocs)
     const [isChanged, setIsChanged] = useState(false);
+    const [data, setData] = useState(getAssetData());
+    const [allDocs, setAllDocs] = useState(getAllDocs());
 
-    const getLocalData = () => {
-        return data;
-    }
     
     const handleDataChange = e => {
         setIsChanged(true);
-        setData({...data, [e.target.name]:e.target.value})
+        setAssetData({...getAssetData(), [e.target.name]:e.target.value});
+        setData({...getAssetData(), [e.target.name]:e.target.value});
     }
     
     const handleFiles = e => {
@@ -245,15 +244,20 @@ const AssetModal = ({assetData, assetDocs, defaultValues, updateAsset, addPendin
             if(!window.confirm('Do you want to discard your changes?')) return
         }
         setOpen(false);
+        setAssetData(defaultValues);
         setData(defaultValues);
-        assetDocs = [];
+        setPendDocs([]);
+        setAssetDocs([]);
     };
 
     const handleSave = () => {
         if (isChanged){
-            updateAsset(data, isNew);
+            updateAsset(getAssetData(), isNew);
+            console.log('ASSET DATA', getAssetData());
         }
     }
+
+    useEffect(()=> {}, [open])
 
     return (
         <div className={classes.root}>
@@ -269,10 +273,10 @@ const AssetModal = ({assetData, assetDocs, defaultValues, updateAsset, addPendin
                     ) : (
                         <div className={classes.paper}>
                             <div>
-                                <AssetInfo getData={getLocalData} handleData={handleDataChange} handleFiles={handleFiles} />
+                                <AssetInfo getData={getAssetData} handleData={handleDataChange} handleFiles={handleFiles} />
                             </div>
                             <div>
-                                <AssetPics docs={assetDocs.docs} pendingDocs={assetDocs.pendingDocs} />
+                                <AssetPics docs={getAllDocs().docs} pendingDocs={getAllDocs().pendingDocs} />
                             </div>
                             <div className={classes.button}>
                             <Button type="button" onClick={()=> {handleClose(false)}}>

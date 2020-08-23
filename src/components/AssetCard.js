@@ -1,6 +1,7 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper'
+import CardActionArea from '@material-ui/core/CardActionArea'
 
 import placeholder from '../assets/logo.png'
 
@@ -50,7 +51,7 @@ const useStyles = makeStyles({
     },
 })
 
-const AssetCard = ({name, category, date, value, thumbnailUrl}) => { 
+const AssetCard = ({name, category, date, value, thumbnailUrl, onClick}) => { 
     const classes = useStyles()
 
     if(name === 'minecrowave 3'){
@@ -59,15 +60,18 @@ const AssetCard = ({name, category, date, value, thumbnailUrl}) => {
 
     return (
         <Paper className={classes.card} elevation={2}>
-            <div className={classes.imageContainer}>
-                <img className={classes.image} src={thumbnailUrl || placeholder} alt={'gone girl 2'} />
-            </div>
-            <div className={classes.infoContainer}>
-                <p className={`${classes.topText} ${classes.leftText}`}>{name}</p>
-                <p className={`${classes.topText} ${classes.rightText}`}>{category}</p>
-                <p className={`${classes.bottomText} ${classes.leftText}`}>{date}</p>
-                <p className={`${classes.bottomText} ${classes.rightText}`}>{'$'+value}</p>
-            </div>
+            <CardActionArea onClick={onClick}>
+                <div className={classes.imageContainer}>
+                    <img className={classes.image} src={thumbnailUrl || placeholder} alt={'gone girl 2'} />
+                </div>
+                <div className={classes.infoContainer}>
+                    <p className={`${classes.topText} ${classes.leftText}`}>{name}</p>
+                    <p className={`${classes.topText} ${classes.rightText}`}>{category}</p>
+                    <p className={`${classes.bottomText} ${classes.leftText}`}>{date}</p>
+                    <p className={`${classes.bottomText} ${classes.rightText}`}>{'$'+value}</p>
+                </div>
+            </CardActionArea>
+            
         </Paper>
     )
 }

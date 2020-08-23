@@ -109,7 +109,22 @@ const Main = ({firebase}) => {
         });
     }
 
+    const getAssetData = () => {
+        return currentAssetData;
+    }
+
+    const setAssetData = obj => {
+        setCurrentAssetData(obj);
+    }
+
     const assetModalRef = useRef();
+
+    const loadModalFromCard = async card => {
+        await setCurrentAssetData(card);
+        await setCurrentAssetId(card.id);
+        await showAssetModal(false);
+        // console.log(currentAssetData);
+    }
 
     const showAssetModal = async (isNewAsset=true) => {
         await getDocumentsWithUrls();
@@ -118,6 +133,7 @@ const Main = ({firebase}) => {
 
     const updateAsset = (data, isNew) => {
         if(isNew){
+            console.log('DATA', JSON.parse(JSON.stringify(data)));
             firebase.addAsset(data)
             .then(async asset_id => {
                 let filesUploaded = 0;
@@ -179,13 +195,13 @@ const Main = ({firebase}) => {
     }
 
     const getDocumentsWithUrls = () => {
-         firebase.getDocuments(currentAssetId).then(docs => {
-            docs.forEach(doc => {
-                firebase.getDocumentUrl(doc.id).then(url => {
+         firebase.getDocuments(currentAssetId).then(async docs => {
+             for(const doc of docs){
+                await firebase.getDocumentUrl(doc.id).then(url => {
                     doc['url'] = url;
                 })
-            })
-            return docs
+            }
+            return docs;
         }).then(docs => {
             setDocs(docs)
         }).catch(err => {
@@ -212,18 +228,33 @@ const Main = ({firebase}) => {
         console.log("NEW PENDING DOCS", pendingDocs);
     }
 
+    const setAssetDocs = arr => {
+        setDocs(arr)
+    }
+
+    const setPendDocs = arr => {
+        setPendingDocs (arr)
+    }
+
+    const getAllDocs = () => {
+        return {docs:docs, pendingDocs:pendingDocs};
+    }
+
     return (
         <>
             <Header />
             <Filters insuranceTypes={insuranceTypes} onSearchbarChange={onSearchbarChange} onCategoryChange={onCategoryChange} categories={categories}/>
-            <AssetList search={search} categories={categories} cards={cards}/>
+            <AssetList search={search} categories={categories} cards={cards} modalFunc={loadModalFromCard}/>
             <AssetModal 
-                assetData={currentAssetData} 
-                assetDocs={{docs:docs, pendingDocs:pendingDocs}}
+                getAssetData={getAssetData}
+                setAssetData={setAssetData} 
+                getAllDocs={getAllDocs}
                 defaultValues={DEFAULT_INPUT_VALUES} 
                 updateAsset={updateAsset} 
                 addPendingDocs={addPendingDocs} 
                 uploadPercent={uploadPercent}
+                setPendDocs={setPendDocs}
+                setAssetDocs={setAssetDocs}
                 ref={assetModalRef}
             />
             <button onClick={()=>{showAssetModal(true)}}>Create Asset</button>

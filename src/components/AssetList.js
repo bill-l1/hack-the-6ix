@@ -18,7 +18,7 @@ const useStyles = makeStyles({
 })
 
 
-const AssetList = ({search, categories, cards}) => { 
+const AssetList = ({search, categories, cards, modalFunc}) => { 
     const classes = useStyles()
     
     const renderCards = () => {
@@ -34,12 +34,13 @@ const AssetList = ({search, categories, cards}) => {
                 // console.log("MAP", card.data.name, card.thumbnailUrl, JSON.stringify(card));
                 return (
                 <div key={card.id} className={classes.assetGridItem}>
-                    <AssetCard 
+                    <AssetCard
                         name={card.data.name} 
                         category={card.data.category} 
                         date={card.data.date || '00/00/0000'} 
                         value={card.data.value} 
                         thumbnailUrl={card.thumbnailUrl}
+                        onClick={()=>{modalFunc(card)}}
                     />
                 </div>
             )})

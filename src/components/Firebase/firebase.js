@@ -154,6 +154,7 @@ class Firebase {
         const uid = this.auth.currentUser.uid //
         return this.storage.ref(`documents/${uid}/${doc_id}`).list({maxResults:1}).then(res => {
             // console.log("URLS",res.items);
+            // if(res.items[0] == undefined) return false
             const imageRef = res.items[0]
             return imageRef.getDownloadURL().then(url => {
                 return url
