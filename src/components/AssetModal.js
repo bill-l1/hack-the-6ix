@@ -19,31 +19,40 @@ const useStyles = makeStyles((theme) => ({
       minWidth: 300,
     },
     modal: {
-      display: 'flex',
-      padding: theme.spacing(1),
-      alignItems: 'center',
-      justifyContent: 'center',
+        position: 'absolute',
+        overflowY: 'auto',
+        outline: 'none',
+        width: '80vw',
+        height: '80vh',
+        top: '50%',
+        left: '50%',
+        marginTop: '-40vh',
+        marginLeft: '-40vw',
+        backgroundColor: 'white',
+        display: 'grid',
+        gridTemplateColumns: '50% 50%',
+        gridTemplateRows: '70% 30%',
+        gap: '1px 1px',
+        gridTemplateAreas: `
+            'claim-header asset-list-header' 
+            'form asset-list' 
+            'form-footer submit' 
+        `
     },
-    paper: {
-      display: 'flex',
-      justifyContent: 'space-between',
-      flexFlow: 'row no wrap',
-      width: 1000,
-      height: 600,
-      backgroundColor: '#f5f5dc',
-      border: '3px solid #000',
-      boxShadow: theme.shadows[5],
-      padding: theme.spacing(2, 4, 3),
-    },
-    button: {
+    submit: {
+        display: 'flex',
+        justifyContent: 'flex-end',
+        alignItems: 'flex-end',
+        padding: '10px 100px'
     },
     info: {
         display: 'flex',
         justifyContent: 'space-evenly',
+        margin: '50px',
         flexFlow: 'column wrap',
     },
     gridList: {
-        width: 500,
+        width: 600,
         height: 600,
     },
   }));
@@ -144,7 +153,6 @@ const AssetInfo = ({getData, handleData, handleFiles}) => {
                 </Button>
             </label>
             <label htmlFor="add-docs">
-                Documents
                 <Button variant = "contained" component="span" className={classes.button}>
                     Add Documents
                 </Button>
@@ -264,15 +272,12 @@ const AssetModal = ({getAssetData, setAssetData, getAllDocs, defaultValues, upda
         <div className={classes.root}>
             <Modal
                 open={open}
-                onClose={handleClose}
-                aria-labelledby="simple-modal-title"
-                aria-describedby="simple-modal-description"
-                className={classes.modal}>
+                onClose={handleClose}>
                     {uploadPercent ?
                     (
                         <div>{uploadPercent && <p>{uploadPercent}</p>}</div>
                     ) : (
-                        <div className={classes.paper}>
+                        <div className={classes.modal}>
                             <div>
                                 <AssetInfo getData={getAssetData} handleData={handleDataChange} handleFiles={handleFiles} />
                             </div>
@@ -280,10 +285,10 @@ const AssetModal = ({getAssetData, setAssetData, getAllDocs, defaultValues, upda
                                 <AssetPics docs={getAllDocs().docs} pendingDocs={getAllDocs().pendingDocs} />
                             </div>
                             <div className={classes.button}>
-                            <Button type="button" onClick={()=> {handleClose(false)}}>
+                            <Button type="button" className={classes.submit} onClick={()=> {handleClose(false)}}>
                                 Cancel
                             </Button>
-                            <Button type="submit" onClick={handleSave}>
+                            <Button type="submit" className={classes.submit} onClick={handleSave}>
                                 Save
                             </Button>
                             </div>
