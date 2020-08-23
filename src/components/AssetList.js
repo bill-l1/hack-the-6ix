@@ -37,7 +37,11 @@ const AssetList = ({search, categories, cards}) => {
             })
             .map(card => (
                 <div key={card.id} className={classes.assetGridItem}>
-                    <AssetCard name={card.data.name} category={card.data.category} date={card.data.date || '00/00/0000'} value={card.data.value}/>
+                    <AssetCard 
+                        name={card.data.name} 
+                        category={card.data.category} 
+                        date={card.data.date || '00/00/0000'} 
+                        value={card.data.value}/>
                 </div>
             ))
     }   

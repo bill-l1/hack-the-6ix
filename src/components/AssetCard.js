@@ -2,7 +2,11 @@ import React from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper'
 
+import insuranceTypes from '../constants/insuranceTypes'
 import placeholder from '../assets/logo.png'
+
+import GradeIcon from '@material-ui/icons/Grade'
+
 
 const useStyles = makeStyles({
     card: {
@@ -30,10 +34,10 @@ const useStyles = makeStyles({
         justifyContent: 'space-between',
         alignItems: 'flex-start',
         alignContent: 'space-between',
-        '& p': {
+        '& *': {
             position: 'absolute',
             margin: '0px',
-            padding: '10px 5px'
+            padding: '13px 8px'
         }
     },
     topText: {
@@ -53,16 +57,23 @@ const useStyles = makeStyles({
 const AssetCard = ({name, category, date, value}) => { 
     const classes = useStyles()
 
+    const getCategoryIcon = () => {
+        for (let type of insuranceTypes) {
+            if (type.name === category)
+                return <type.icon className={`${classes.topText} ${classes.rightText}`}/>
+        }
+    }
+    
     return (
         <Paper className={classes.card} elevation={2}>
             <div className={classes.imageContainer}>
                 <img className={classes.image} src={placeholder} alt={'gone girl 2'} />
             </div>
             <div className={classes.infoContainer}>
-                <p className={`${classes.topText} ${classes.leftText}`}>{name}</p>
-                <p className={`${classes.topText} ${classes.rightText}`}>{category}</p>
-                <p className={`${classes.bottomText} ${classes.leftText}`}>{date}</p>
-                <p className={`${classes.bottomText} ${classes.rightText}`}>{'$'+value}</p>
+                <h4 className={`${classes.topText} ${classes.leftText}`}> {name} </h4>
+                {getCategoryIcon()}
+                <h4 className={`${classes.bottomText} ${classes.leftText}`}> {date} </h4>
+                <h4 className={`${classes.bottomText} ${classes.rightText}`}> {'$'+value} </h4>
             </div>
         </Paper>
     )

@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
 
+import insuranceTypes from '../constants/insuranceTypes'
 
 const useStyles = makeStyles({
     filters: {
@@ -17,13 +18,13 @@ const useStyles = makeStyles({
     }
 })
 
-const Filters = ({insuranceTypes, onSearchbarChange, onCategoryChange, categories}) => { 
+const Filters = ({onSearchbarChange, onCategoryChange, categories}) => { 
     const classes = useStyles()
 
     const categoryButtons = insuranceTypes.map(category => {
         return (
         <Button
-            startIcon={category.icon}
+            startIcon={<category.icon/>}
             color={categories.includes(category.name) ? 'primary' : 'default'}
             onClick={() => onCategoryChange(category.name)}
         >
