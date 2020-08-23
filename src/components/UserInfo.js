@@ -45,7 +45,7 @@ const UserInfo = ({firebase}) => {
     }
     
     const toProfile = () => {
-        history.push(ROUTES.PROFILE)
+        history.push(ROUTES.EDITPROFILE)
     }
 
     const onSignOut = () => {
