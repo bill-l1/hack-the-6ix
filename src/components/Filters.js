@@ -13,9 +13,9 @@ const useStyles = makeStyles({
         zIndex: 1,
         top: '30px', 
         background: '#fff',
-        border: '1px solid black',
+        border: '1px solid grey',
         borderRadius: 'none',
-        width: '92%',
+        width: '90%',
         margin: '15px auto 15px auto',
         padding: '10px 20px',
     },
@@ -24,16 +24,30 @@ const useStyles = makeStyles({
         borderRadius: style => style.borderRadius
     },
     searchDiv: {
-        width: '40%',
         display: 'flex',
+        flexGrow: 1,
         alignItems: 'center',
         marginRight: 'auto',
         padding: '10px 15px',
     },
     searchBar: {
         marginLeft: '10px',
-        width: '100%'
-    }
+        width: '100%',
+    },
+    button: {
+        margin: '0px 5px',
+    },
+    active: {
+        background: '#d5f5d8',
+        '&:hover': {
+            background: '#d5f5d8',
+        }
+    },
+    inactive: {
+        '&:hover': {
+            background: '#d5f5d8',
+        }
+    },
 })
 
 const Filters = ({insuranceTypes, onSearchbarChange, onCategoryChange, categories}) => { 
@@ -46,7 +60,8 @@ const Filters = ({insuranceTypes, onSearchbarChange, onCategoryChange, categorie
         return (
         <Button
             startIcon={category.icon}
-            color={categories.includes(category.name) ? 'primary' : 'default'}
+            //color={categories.includes(category.name) ? 'primary' : 'default'}
+            className={`${categories.includes(category.name) ? classes.active : classes.inactive} ${classes.button}`}
             onClick={() => onCategoryChange(category.name)}
         >
             {category.name}
@@ -83,7 +98,9 @@ const Filters = ({insuranceTypes, onSearchbarChange, onCategoryChange, categorie
                     className={classes.searchBar}
                 />
             </div>
-            {categoryButtons}
+            <div>
+                {categoryButtons}
+            </div>
         </div>
     )
 }
