@@ -107,6 +107,10 @@ const SubmitModal = ({open, onClose, selectedCards, onSubmit}) => {
     const onDateInfoChange = d => setDateInfo(d)
     const onAdditionalInfoChange = e => setAdditionalInfo(e.target.value)
 
+    const handleSubmit = e => {
+        onSubmit(category, provider, accountInfo, policyInfo, dateInfo, additionalInfo);
+    }
+
     return (
         <Modal open={open} onClose={onClose}>
             <div className={classes.modal}>
@@ -203,7 +207,7 @@ const SubmitModal = ({open, onClose, selectedCards, onSubmit}) => {
                 </div>
 
                 <div className={classes.submit}> 
-                    <Fab color="primary" variant='extended' onClick={onSubmit}>
+                    <Fab color="primary" variant='extended' onClick={handleSubmit}>
                         <PublishIcon />
                         Submit
                     </Fab>

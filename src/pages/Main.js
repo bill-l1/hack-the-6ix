@@ -232,8 +232,8 @@ const Main = ({firebase}) => {
        return cards.filter(card => selectedCardIds.includes(card.id))
     }
 
-    const usePackageService = () => {
-        createAndDownloadPackage(firebase, getCardIds()).then(res => {
+    const usePackageService = (category, provider, accountInfo, policyInfo, dateInfo, additionalInfo) => {
+        createAndDownloadPackage(firebase, getCardIds(), category, provider, accountInfo, policyInfo, dateInfo, additionalInfo).then(res => {
             console.log("success", res)
         }).catch(err=> {
             console.error(err.code, err.message)
