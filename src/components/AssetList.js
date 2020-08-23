@@ -22,17 +22,28 @@ const AssetList = ({search, categories, cards}) => {
     const classes = useStyles()
     
     const renderCards = () => {
+        // console.log('CARDS FROM LIST:', JSON.stringify(cards));
         return cards
             .filter(card => {
+                // console.log("FILTER", card.data.name, card.thumbnailUrl, JSON.stringify(card))
                 let searched = card.data.name.toLowerCase().includes(search.toLowerCase()) || card.data.category.toLowerCase().includes(search.toLowerCase())
                 let filtered = categories.length > 0 ? categories.includes(card.data.category) : true
                 return searched && filtered
             })
-            .map(card => (
+            .map(card => { 
+                // console.log("MAP", card.data.name, card.thumbnailUrl, JSON.stringify(card));
+                return (
                 <div key={card.id} className={classes.assetGridItem}>
-                    <AssetCard name={card.data.name} category={card.data.category} date={card.data.date || '00/00/0000'} value={card.data.value}/>
+                    <AssetCard 
+                        name={card.data.name} 
+                        category={card.data.category} 
+                        date={card.data.date || '00/00/0000'} 
+                        value={card.data.value} 
+                        thumbnailUrl={card.thumbnailUrl}
+                    />
                 </div>
-            ))
+            )})
+
     }   
 
     return (

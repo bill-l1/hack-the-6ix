@@ -50,13 +50,17 @@ const useStyles = makeStyles({
     },
 })
 
-const AssetCard = ({name, category, date, value}) => { 
+const AssetCard = ({name, category, date, value, thumbnailUrl}) => { 
     const classes = useStyles()
+
+    if(name === 'minecrowave 3'){
+        console.log('THUMBNAILURL:', thumbnailUrl);
+    } 
 
     return (
         <Paper className={classes.card} elevation={2}>
             <div className={classes.imageContainer}>
-                <img className={classes.image} src={placeholder} alt={'gone girl 2'} />
+                <img className={classes.image} src={thumbnailUrl || placeholder} alt={'gone girl 2'} />
             </div>
             <div className={classes.infoContainer}>
                 <p className={`${classes.topText} ${classes.leftText}`}>{name}</p>
