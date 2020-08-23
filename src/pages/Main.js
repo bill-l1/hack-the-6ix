@@ -9,6 +9,24 @@ import Header from '../components/Header'
 import Info from '../components/Info'
 import SubmitModal from '../components/SubmitModal'
 
+const useStyles = makeStyles({
+    container: {
+        background: '#dce0e6',
+        minHeight: '100vh'
+    }
+})
+
+const names = ['Aarish', 'Bill', 'Bowen', 'Matthew']
+
+// let cards = []
+// for (let i = 0; i < 20; i++) {
+//     let name = names[Math.floor(Math.random() * names.length)]
+//     let category = insuranceTypes[Math.floor(Math.random() * insuranceTypes.length)].name
+//     cards.push({
+//         name: name,
+//         category: category
+//     })
+// }
 
 const Main = ({firebase}) => { 
     const [categories, setCategories] = useState([])
@@ -56,15 +74,17 @@ const Main = ({firebase}) => {
     const onGetInfoPress = () => setInfoOpen(true)
     const onInfoClose = () => setInfoOpen(false)
 
+    const classes = useStyles()
+
     return (
-        <>
+        <div className={classes.container}>
             <Header />
             <Filters onSearchbarChange={onSearchbarChange} onCategoryChange={onCategoryChange} categories={categories}/>
             <AssetList search={search} categories={categories} cards={cards} onSelectionChange={onSelectionChange}/>
             <FloatingActionButtons onSubmitPress={onSubmitPress} onGetInfoPress={onGetInfoPress}/>
             <Info open={submitInfoOpen} onClose={onInfoClose}/>
             <SubmitModal open={submitModalOpen} onClose={onSubmitModalClose} selectedCards={cards.filter(card => selectedCardIds.includes(card.id))}/>
-        </>
+        </div>
     )
 }
 

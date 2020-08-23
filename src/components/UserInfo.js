@@ -17,15 +17,16 @@ const useStyles = makeStyles({
             padding: '0px 15px', 
             alignItems: 'center',
             alignContent: 'center',
+            color: '#77d1c8',
             '& p': {
-                padding: '0px 5px'
+                padding: '0px 5px',
             },
             '&:hover': {
-                backgroundColor: '#103d38',
-                color: '#2fb6a9'
+                backgroundColor: '#77d1c8',
+                color: '#303845'
             }
         }
-    }
+    },
 })
 
 const UserInfo = ({firebase}) => { 
@@ -59,9 +60,9 @@ const UserInfo = ({firebase}) => {
 
     return (
         <div className={classes.wrapper}>
-            <div onClick={toMain}><AccountBalanceWallet /><p>View All Assets</p></div>
-            <div onClick={toProfile}><Person /><p>{name}</p></div>
-            <div onClick={onSignOut}><p>Sign Out</p><ExitToApp /></div>
+            <div onClick={toMain}><AccountBalanceWallet className={classes.icon}/><p>View All Assets</p></div>
+            <div onClick={toProfile}><Person className={classes.icon}/><p>{name}</p></div>
+            <div onClick={onSignOut}><p>Sign Out</p><ExitToApp className={classes.icon} /></div>
         </div>
     )
 }

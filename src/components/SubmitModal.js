@@ -21,6 +21,7 @@ const useStyles = makeStyles({
         height: '80vh',
         top: '50%',
         left: '50%',
+        overflowY: 'scroll',
         marginTop: '-40vh',
         marginLeft: '-40vw',
         backgroundColor: 'white',

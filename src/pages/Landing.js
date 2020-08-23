@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import MockDesign from '../assets/mock-app-design.jpg'
+import Logo from '../assets/BunkrFull.png'
 import { makeStyles, styled } from '@material-ui/core/styles'
 import { Button, Input, Card, CardContent } from '@material-ui/core'
 import { DoubleArrow, Facebook, Instagram, Twitter, LinkedIn, PostAdd, Gavel, Help } from '@material-ui/icons';
@@ -39,6 +40,9 @@ const useStyles = makeStyles({
             color: '#2F4F4F',
             fontSize: '12px' 
         }
+    },
+    logo: {
+        width: '70%',
     },
     flexDisplay: {
         display: 'flex',
@@ -148,7 +152,7 @@ const Landing = (props) => {
                     <img alt='mock design' src={MockDesign}></img>
                 </div>
                 <div>
-                    <h3>Logo</h3>
+                    <img src={Logo} className={classes.logo} />
                     <h5>A simple way to text, video chat & plan things all in one place</h5>
                     {/* <form onSubmit={onFormSubmit}>
                         <AuthInput name='email' type='text' onChange={onEmailChange} disableUnderline={true} placeholder='Email'/>
