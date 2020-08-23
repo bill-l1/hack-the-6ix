@@ -96,26 +96,24 @@ const AssetCard = ({name, category, date, value, id, thumbnailUrl, onClick, onSe
 
     return (
             <Paper className={classes.card} elevation={2}>
-            <CardActionArea onClick={onClick}>
-                <div className={classes.imageContainer}>
-                    <img className={classes.image} src={thumbnailUrl || placeholder} alt={'gone girl 2'} />
-                </div>
-                <Checkbox 
-                    className={classes.checkbox}
-                    icon={<Icon className='fas fa-square' />}
-                    color='default'
-                    size='medium'
-                    checked={checked}
-                    onChange={onCheckboxChange}
-                />
-                <div className={classes.infoContainer}>
-                    <h4 className={`${classes.topText} ${classes.leftText}`}> {name} </h4>
-                    {getCategoryIcon()}
-                    <h4 className={`${classes.bottomText} ${classes.leftText}`}> {date} </h4>
-                    <h4 className={`${classes.bottomText} ${classes.rightText}`}> {'$'+value} </h4>
-                </div>
-            </CardActionArea>
-        </Paper>
+                    <div className={classes.imageContainer}>
+                        <img className={classes.image} src={thumbnailUrl || placeholder} alt={'gone girl 2'} onClick={onClick}/>
+                    </div>
+                    <Checkbox 
+                        className={classes.checkbox}
+                        icon={<Icon className='fas fa-square' />}
+                        color='default'
+                        size='medium'
+                        checked={checked}
+                        onChange={onCheckboxChange}
+                    />
+                    <div className={classes.infoContainer} onClick={onClick}>
+                        <h4 className={`${classes.topText} ${classes.leftText}`}> {name} </h4>
+                        {getCategoryIcon()}
+                        <h4 className={`${classes.bottomText} ${classes.leftText}`}> {date} </h4>
+                        <h4 className={`${classes.bottomText} ${classes.rightText}`}> {'$'+value} </h4>
+                    </div>
+            </Paper>
     )
 }
 

@@ -54,6 +54,8 @@ const Main = ({firebase}) => {
     const [uploadPercent, setUploadPercent] = useState(null)
     const [pendingDocs, setPendingDocs] = useState([]);
 
+    const [submit, setSubmit] = useState(false)
+
     useEffect(() => {
         firebase.auth.onAuthStateChanged(user => {
             user ? setUserAuth(user) : setUserAuth(null)
@@ -66,6 +68,12 @@ const Main = ({firebase}) => {
             }
         })
     }, [userAuth])
+
+    useEffect(() => {
+        if(submit) {
+            loadCards()
+        }
+    }, [submit])
     
     const onCategoryChange = category => {
         if (categories.includes(category))
@@ -74,7 +82,7 @@ const Main = ({firebase}) => {
         setCategories([...categories, category])
     }
 
-    const loadCards = () => {
+    const loadCards = async () => {
         firebase.getAllAssets().then(assets => {
             setCardsWithThumbnails(assets);
         }).catch(err =>{
@@ -267,6 +275,7 @@ const Main = ({firebase}) => {
                 uploadPercent={uploadPercent}
                 setPendDocs={setPendDocs}
                 setAssetDocs={setAssetDocs}
+                setSubmit={setSubmit}
                 ref={assetModalRef}
             />
             <SubmitModal 
