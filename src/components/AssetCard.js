@@ -15,7 +15,7 @@ const useStyles = makeStyles({
         height: '300px',
         width: '300px',
         position: 'relative',
-        border: checked ? '2px ridge #73fc03' : ''
+        border: checked ? '3px ridge #73fc03' : ''
     }),
     checkbox: {
         position: 'absolute',
@@ -23,7 +23,7 @@ const useStyles = makeStyles({
         right: '0px',
         padding: '5px',
         margin: '0px',
-        color: 'white'
+        color: '#ededed'
     },
     imageContainer: {
         height: '70%',
