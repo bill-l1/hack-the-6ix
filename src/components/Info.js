@@ -70,6 +70,7 @@ const useStyles = makeStyles({
 
 const StepsCards = styled(Card)({
     borderRadius: '5px',
+    margin: '10px 5px',
     width: '30%',
     boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
     textAlign: 'center',
