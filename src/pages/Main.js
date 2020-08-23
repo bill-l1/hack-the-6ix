@@ -1,12 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import HomeIcon from '@material-ui/icons/Home'
-import DriveEtaIcon from '@material-ui/icons/DriveEta'
-import GradeIcon from '@material-ui/icons/Grade'
-import EmojiSymbolsIcon from '@material-ui/icons/EmojiSymbols'
 
-import {withFirebase} from '../components/Firebase'
-
+import { withFirebase } from '../components/Firebase'
 import AssetList from '../components/AssetList'
 import Filters from '../components/Filters'
 import FloatingActionButtons from '../components/FloatingActionButtons'
@@ -17,12 +12,6 @@ const useStyles = makeStyles({
 })
 
 const names = ['Aarish', 'Bill', 'Bowen', 'Matthew']
-const insuranceTypes = [
-    { name: 'Property', icon: <HomeIcon /> },
-    { name: 'Auto', icon: <DriveEtaIcon /> },
-    { name: 'Valuables', icon: <GradeIcon /> },
-    { name: 'Misc.', icon: <EmojiSymbolsIcon /> }
-]
 
 // let cards = []
 // for (let i = 0; i < 20; i++) {
@@ -43,7 +32,7 @@ const Main = ({firebase}) => {
     useEffect(() => {
         firebase.auth.onAuthStateChanged(user => {
             user ? setUserAuth(user) : setUserAuth(null)
-            if(user){
+            if (user) {
                 console.log(firebase.getUser());
                 firebase.getAllAssets().then(assets => {
                     setCards(assets);
@@ -72,7 +61,7 @@ const Main = ({firebase}) => {
     return (
         <>
             <Header />
-            <Filters insuranceTypes={insuranceTypes} onSearchbarChange={onSearchbarChange} onCategoryChange={onCategoryChange} categories={categories}/>
+            <Filters onSearchbarChange={onSearchbarChange} onCategoryChange={onCategoryChange} categories={categories}/>
             <AssetList search={search} categories={categories} cards={cards}/>
             <FloatingActionButtons />
         </>
