@@ -11,9 +11,6 @@ import Header from '../components/Header'
 const useStyles = makeStyles({
 })
 
-const names = ['Aarish', 'Bill', 'Bowen', 'Matthew']
-
-
 const Main = ({firebase}) => { 
     const [categories, setCategories] = useState([])
     const [search, setSearch] = useState('')
