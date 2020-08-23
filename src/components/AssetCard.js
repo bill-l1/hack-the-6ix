@@ -9,7 +9,6 @@ import insuranceTypes from '../constants/insuranceTypes'
 import placeholder from '../assets/logo.png'
 
 
-
 const useStyles = makeStyles({
     card: checked => ({
         height: '300px',

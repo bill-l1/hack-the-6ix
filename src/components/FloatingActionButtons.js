@@ -18,7 +18,7 @@ const useStyles = makeStyles({
     }
 })
 
-const FloatingActionButtons = ({onAddAssetPress, onGeneratePackagePress, onGetInfoPress}) => { 
+const FloatingActionButtons = ({onAddAssetPress, onSubmitPress, onGetInfoPress}) => { 
 
     const classes = useStyles()
 
@@ -31,7 +31,7 @@ const FloatingActionButtons = ({onAddAssetPress, onGeneratePackagePress, onGetIn
             </Tooltip>
 
             <Tooltip title='Package together documents for a claim' placement='top'>
-                <Fab color="primary" aria-label="generate-package">
+                <Fab color="primary" aria-label="generate-package" onClick={onSubmitPress}>
                     <GavelIcon />
                 </Fab>
             </Tooltip>
