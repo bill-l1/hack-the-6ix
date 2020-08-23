@@ -13,30 +13,22 @@ const useStyles = makeStyles({
 
 const names = ['Aarish', 'Bill', 'Bowen', 'Matthew']
 
-// let cards = []
-// for (let i = 0; i < 20; i++) {
-//     let name = names[Math.floor(Math.random() * names.length)]
-//     let category = insuranceTypes[Math.floor(Math.random() * insuranceTypes.length)].name
-//     cards.push({
-//         name: name,
-//         category: category
-//     })
-// }
 
 const Main = ({firebase}) => { 
     const [categories, setCategories] = useState([])
     const [search, setSearch] = useState('')
-    const [cards, setCards] = useState([]);
+    const [cards, setCards] = useState([])
+    const [selectedCardIds, setSelectedCardIds] = useState([])
     const [userAuth, setUserAuth] = useState(null);
 
     useEffect(() => {
         firebase.auth.onAuthStateChanged(user => {
             user ? setUserAuth(user) : setUserAuth(null)
             if (user) {
-                console.log(firebase.getUser());
+                console.log(firebase.getUser())
                 firebase.getAllAssets().then(assets => {
                     setCards(assets);
-                });
+                })
             }
             
             return () => {
@@ -47,22 +39,29 @@ const Main = ({firebase}) => {
 
     const classes = useStyles()
 
-    const onSearchbarChange = (e) => {
+    const onSearchbarChange = e => {
         setSearch(e.target.value)
     }
 
-    const onCategoryChange = (category) => {
+    const onCategoryChange = category => {
         if (categories.includes(category))
             setCategories(categories.filter(c => c !== category))
         else 
             setCategories([...categories, category])
     }
 
+    const onSelectionChange = (checked, id) => {
+        if (checked)
+            setSelectedCardIds([...selectedCardIds, id])
+        else
+            setSelectedCardIds(selectedCardIds.filter(c_id => c_id !== id))
+    }
+
     return (
         <>
             <Header />
             <Filters onSearchbarChange={onSearchbarChange} onCategoryChange={onCategoryChange} categories={categories}/>
-            <AssetList search={search} categories={categories} cards={cards}/>
+            <AssetList search={search} categories={categories} cards={cards} onSelectionChange={onSelectionChange}/>
             <FloatingActionButtons />
         </>
     )
