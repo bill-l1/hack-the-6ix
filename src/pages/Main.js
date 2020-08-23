@@ -17,18 +17,6 @@ const useStyles = makeStyles({
     }
 })
 
-const names = ['Aarish', 'Bill', 'Bowen', 'Matthew']
-
-// let cards = []
-// for (let i = 0; i < 20; i++) {
-//     let name = names[Math.floor(Math.random() * names.length)]
-//     let category = insuranceTypes[Math.floor(Math.random() * insuranceTypes.length)].name
-//     cards.push({
-//         name: name,
-//         category: category
-//     })
-// }
-
 const DEFAULT_INPUT_VALUES = {
     name: '',
     category: '',
