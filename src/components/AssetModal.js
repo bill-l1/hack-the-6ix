@@ -204,7 +204,7 @@ const AssetPics = ({docs, pendingDocs}) => {
     );
   }
 
-const AssetModal = ({getAssetData, setAssetData, getAllDocs, defaultValues, updateAsset, addPendingDocs, setPendDocs, setAssetDocs, uploadPercent}, ref) => {
+const AssetModal = ({getAssetData, setAssetData, getAllDocs, defaultValues, updateAsset, addPendingDocs, setPendDocs, setAssetDocs, uploadPercent, setSubmit}, ref) => {
     const classes = useStyles();
     const [open, setOpen] = useState(false);
     const [isNew, setIsNew] = useState(true);
@@ -254,6 +254,7 @@ const AssetModal = ({getAssetData, setAssetData, getAllDocs, defaultValues, upda
         if (isChanged){
             updateAsset(getAssetData(), isNew);
             console.log('ASSET DATA', getAssetData());
+            setSubmit(true)
         }
     }
 
