@@ -1,53 +1,27 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import HomeIcon from '@material-ui/icons/Home'
-import DriveEtaIcon from '@material-ui/icons/DriveEta'
-import GradeIcon from '@material-ui/icons/Grade'
-import EmojiSymbolsIcon from '@material-ui/icons/EmojiSymbols'
 
-import {withFirebase} from '../components/Firebase'
-
+import { withFirebase } from '../components/Firebase'
 import AssetList from '../components/AssetList'
 import Filters from '../components/Filters'
+import FloatingActionButtons from '../components/FloatingActionButtons'
 import Header from '../components/Header'
-import AssetModal from '../components/AssetModal'
+import Info from '../components/Info'
+import SubmitModal from '../components/SubmitModal'
 
-const useStyles = makeStyles((theme) => ({
-    root: {
-      height: 300,
-      flexGrow: 1,
-      minWidth: 300,
+const useStyles = makeStyles({
+    container: {
+        background: '#dce0e6',
+        minHeight: '100vh'
+    }
+})
 
-    },
-    modal: {
-      display: 'flex',
-      padding: theme.spacing(1),
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-    paper: {
-      width: 1000,
-      height: 600,
-      backgroundColor: '#f5f5dc',
-      border: '3px solid #000',
-      boxShadow: theme.shadows[5],
-      padding: theme.spacing(2, 4, 3),
-    },
-  }));
-
-// const names = ['Aarish', 'Bill', 'Bowen', 'Matthew']
-const insuranceTypes = [
-    { name: 'Property', icon: <HomeIcon /> },
-    { name: 'Auto', icon: <DriveEtaIcon /> },
-    { name: 'Valuables', icon: <GradeIcon /> },
-    { name: 'Misc.', icon: <EmojiSymbolsIcon /> }
-]
+const names = ['Aarish', 'Bill', 'Bowen', 'Matthew']
 
 // let cards = []
 // for (let i = 0; i < 20; i++) {
 //     let name = names[Math.floor(Math.random() * names.length)]
 //     let category = insuranceTypes[Math.floor(Math.random() * insuranceTypes.length)].name
-
 //     cards.push({
 //         name: name,
 //         category: category
@@ -66,9 +40,12 @@ const DEFAULT_INPUT_VALUES = {
 const Main = ({firebase}) => { 
     const [categories, setCategories] = useState([])
     const [search, setSearch] = useState('')
-    const [cards, setCards] = useState([]);
+    const [cards, setCards] = useState([])
     const [docs, setDocs] = useState([]);
-    const [userAuth, setUserAuth] = useState(null);
+    const [userAuth, setUserAuth] = useState(null)
+    const [selectedCardIds, setSelectedCardIds] = useState([])
+    const [submitModalOpen, setSubmitModalOpen] = useState(false)
+    const [submitInfoOpen, setInfoOpen] = useState(false)
 
     const [currentAssetData, setCurrentAssetData] = useState(DEFAULT_INPUT_VALUES);
     const [currentAssetId, setCurrentAssetId] = useState(''); //change this value
@@ -78,7 +55,7 @@ const Main = ({firebase}) => {
     useEffect(() => {
         firebase.auth.onAuthStateChanged(user => {
             user ? setUserAuth(user) : setUserAuth(null)
-            if(user){
+            if (user) {
                 console.log(firebase.getUser());
                 loadCards();
             }
@@ -87,18 +64,12 @@ const Main = ({firebase}) => {
             }
         })
     }, [userAuth])
-
-    const classes = useStyles()
-
-    const onSearchbarChange = (e) => {
-        setSearch(e.target.value)
-    }
-
-    const onCategoryChange = (category) => {
+    
+    const onCategoryChange = category => {
         if (categories.includes(category))
-            setCategories(categories.filter(c => c !== category))
+        setCategories(categories.filter(c => c !== category))
         else 
-            setCategories([...categories, category])
+        setCategories([...categories, category])
     }
 
     const loadCards = () => {
@@ -240,11 +211,38 @@ const Main = ({firebase}) => {
         return {docs:docs, pendingDocs:pendingDocs};
     }
 
+    onst onSelectionChange = (checked, id) => {
+        if (checked)
+        setSelectedCardIds([...selectedCardIds, id])
+        else
+        setSelectedCardIds(selectedCardIds.filter(c_id => c_id !== id))
+    }
+    
+    const onSearchbarChange = e => setSearch(e.target.value)
+    const onSubmitPress = () => setSubmitModalOpen(true)
+    const onSubmitModalClose = () => setSubmitModalOpen(false)
+    const onGetInfoPress = () => setInfoOpen(true)
+    const onInfoClose = () => setInfoOpen(false)
+
+    const classes = useStyles()
+
+    // return (
+    //     <div className={classes.container}>
+    //         <Header />
+    //         <Filters onSearchbarChange={onSearchbarChange} onCategoryChange={onCategoryChange} categories={categories}/>
+    //         <AssetList search={search} categories={categories} cards={cards} onSelectionChange={onSelectionChange}/>
+    //         <FloatingActionButtons onSubmitPress={onSubmitPress} onGetInfoPress={onGetInfoPress}/>
+    //         <Info open={submitInfoOpen} onClose={onInfoClose}/>
+    //         <SubmitModal open={submitModalOpen} onClose={onSubmitModalClose} selectedCards={cards.filter(card => selectedCardIds.includes(card.id))}/>
+    //     </div>
+
     return (
-        <>
+        <div className={classes.container}>
             <Header />
-            <Filters insuranceTypes={insuranceTypes} onSearchbarChange={onSearchbarChange} onCategoryChange={onCategoryChange} categories={categories}/>
-            <AssetList search={search} categories={categories} cards={cards} modalFunc={loadModalFromCard}/>
+            <Filters onSearchbarChange={onSearchbarChange} onCategoryChange={onCategoryChange} categories={categories}/>
+            <AssetList search={search} categories={categories} cards={cards} modalFunc={loadModalFromCard} onSelectionChange={onSelectionChange}/>
+            <FloatingActionButtons onSubmitPress={onSubmitPress} onGetInfoPress={onGetInfoPress}/>
+            <Info open={submitInfoOpen} onClose={onInfoClose}/>
             <AssetModal 
                 getAssetData={getAssetData}
                 setAssetData={setAssetData} 
@@ -257,8 +255,9 @@ const Main = ({firebase}) => {
                 setAssetDocs={setAssetDocs}
                 ref={assetModalRef}
             />
+            <SubmitModal open={submitModalOpen} onClose={onSubmitModalClose} selectedCards={cards.filter(card => selectedCardIds.includes(card.id))}/>
             <button onClick={()=>{showAssetModal(true)}}>Create Asset</button>
-        </>
+        </div>
     )
 }
 

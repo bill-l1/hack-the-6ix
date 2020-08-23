@@ -3,22 +3,30 @@ import { makeStyles } from '@material-ui/core/styles';
 import AssetCard from './AssetCard'
 
 const useStyles = makeStyles({
-    assetList: {
-        padding: '0px 30px',
+    container: {
         display: 'flex',
         flexDirection: 'row',
+        justifyContent: 'center',
         flexWrap: 'wrap',
-        justifyContent: 'flex-start',
-        alignItems: 'center',
-        alignContent: 'space-between', 
+        backgroundColor: '#dce0e6',
+    },
+    assetList: {
+        padding: '15px 30px',
+        display: 'grid',
+        gridAutoFlow: 'row dense',
+        gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
+        justifyItems: 'center',
+        justifyContent: 'center',
+        gap: '1em',
+        flex: '1'
     },
     assetGridItem: {
-        padding: '5px 34px',
+
     }
 })
 
 
-const AssetList = ({search, categories, cards, modalFunc}) => { 
+const AssetList = ({search, categories, cards, onSelectionChange, modalFunc}) => { 
     const classes = useStyles()
     
     const renderCards = () => {
@@ -41,6 +49,8 @@ const AssetList = ({search, categories, cards, modalFunc}) => {
                         value={card.data.value} 
                         thumbnailUrl={card.thumbnailUrl}
                         onClick={()=>{modalFunc(card)}}
+                        id={card.id}
+                        onSelectionChange={onSelectionChange}
                     />
                 </div>
             )})
@@ -48,8 +58,10 @@ const AssetList = ({search, categories, cards, modalFunc}) => {
     }   
 
     return (
-        <div className={classes.assetList}>
-                {renderCards()}
+        <div className={classes.container}>
+            <div className={classes.assetList}>
+                    {renderCards()}
+            </div>
         </div>
     )
 }

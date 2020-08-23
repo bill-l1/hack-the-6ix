@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import InsurancePlaceholder from '../assets/Insurance-placeholder.png'
+import Logo from '../assets/BunkrFull.png'
 import { makeStyles, styled } from '@material-ui/core/styles'
 import { Input, Button } from '@material-ui/core'
 import { useHistory } from 'react-router-dom'
@@ -110,6 +111,7 @@ const CreateAccount = ({firebase}) => {
         <div className={classes.container}>
             <div className={classes.infoDiv}>
                 <div className={classes.modalDiv}>
+                    <img alt='logo' className={classes.img} src={Logo} />
                     <img alt='placeholder' className={classes.img} src={InsurancePlaceholder} />
                 </div>
                 <div className={classes.modalDiv}>

@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import MockDesign from '../assets/mock-app-design.jpg'
+import Logo from '../assets/BunkrFull.png'
 import { makeStyles, styled } from '@material-ui/core/styles'
 import { Button, Input, Card, CardContent } from '@material-ui/core'
+import { DoubleArrow, Facebook, Instagram, Twitter, LinkedIn, PostAdd, Gavel, Help } from '@material-ui/icons';
 import { animateScroll as scroll } from 'react-scroll'
 import * as ROUTES from '../constants/routes'
 import { Link, useHistory } from 'react-router-dom'
@@ -11,7 +13,7 @@ import { withFirebase } from '../components/Firebase';
 const useStyles = makeStyles({
     signUpDiv: {
         backgroundColor: '#ededed',
-        padding: '15vh 20vh 10vh 20vh',
+        padding: '15vh 20vh 5vh 20vh',
         display: 'grid',
         gridTemplateColumns: '1fr 1fr',
         alignItems: 'center',
@@ -39,6 +41,9 @@ const useStyles = makeStyles({
             fontSize: '12px' 
         }
     },
+    logo: {
+        width: '70%',
+    },
     flexDisplay: {
         display: 'flex',
         alignItems: 'center',
@@ -46,10 +51,17 @@ const useStyles = makeStyles({
             paddingLeft: '100px'
         }
     },
+    scroll: {
+        transform: 'rotate(90deg)',
+        fontSize: '50px'
+    },
     infoDiv: {
         padding: '3vh 20vh 7vh 20vh', 
         display: 'flex',
         justifyContent: 'space-around',
+    },
+    icon: {
+        fontSize: '100px',
     },
     footer: {
         display: 'flex',
@@ -90,9 +102,7 @@ const InfoCards = styled(Card)({
     margin: '0 10px',
     boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
     width: '80%',
-    '& h3': {
-        textAlign: 'center'
-    }
+    textAlign: 'center'
 });
 
 const Landing = (props) => { 
@@ -142,7 +152,7 @@ const Landing = (props) => {
                     <img alt='mock design' src={MockDesign}></img>
                 </div>
                 <div>
-                    <h3>Logo</h3>
+                    <img src={Logo} className={classes.logo} />
                     <h5>A simple way to text, video chat & plan things all in one place</h5>
                     {/* <form onSubmit={onFormSubmit}>
                         <AuthInput name='email' type='text' onChange={onEmailChange} disableUnderline={true} placeholder='Email'/>
@@ -166,7 +176,7 @@ const Landing = (props) => {
                     
                     <p>Don't have an account? <Link to={ROUTES.CREATEACCOUNT}>Create an account</Link>, it takes less than a minute</p>
                 </div>
-                <div onClick={() => scroll.scrollToBottom()}>v</div>
+                <div onClick={() => scroll.scrollToBottom()}><DoubleArrow className={classes.scroll} /></div>
             </div>
             <div>
                 <h2 style={{'textAlign':'center', 'padding':'2vh 0 0 0'}}>
@@ -176,7 +186,7 @@ const Landing = (props) => {
             <div className={classes.infoDiv}>
                 <InfoCards>
                     <CardContent>
-                        icon<br /><h3>Title</h3>
+                        <PostAdd className={classes.icon}/><br /><h3>Track Assets</h3>
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore 
                         magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo 
                         consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
@@ -185,7 +195,7 @@ const Landing = (props) => {
                 </InfoCards>
                 <InfoCards>
                     <CardContent>
-                        icon<br /><h3>Title</h3>
+                        <Gavel className={classes.icon}/><br /><h3>Create Document For Claims</h3>
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore 
                         magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo 
                         consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
@@ -194,7 +204,7 @@ const Landing = (props) => {
                 </InfoCards>
                 <InfoCards>
                     <CardContent>
-                        icon<br /><h3>Title</h3>
+                        <Help className={classes.icon}/><br /><h3>Learn About Insurance</h3>
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore 
                         magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo 
                         consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
@@ -207,7 +217,7 @@ const Landing = (props) => {
                     Copyright © 2020, Company Name
                 </div>
                 <div style={{'marginLeft': 'auto'}}>
-                    ICONS ICONS ICONS
+                    <LinkedIn /> <Facebook /> <Instagram /> <Twitter />
                 </div>
             </div>
         </div>
