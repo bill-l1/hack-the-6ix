@@ -6,7 +6,7 @@ import AssetList from '../components/AssetList'
 import Filters from '../components/Filters'
 import FloatingActionButtons from '../components/FloatingActionButtons'
 import Header from '../components/Header'
-
+import Info from '../components/Info'
 
 const useStyles = makeStyles({
 })

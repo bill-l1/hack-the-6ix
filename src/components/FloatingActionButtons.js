@@ -37,7 +37,7 @@ const FloatingActionButtons = ({onAddAssetPress, onGeneratePackagePress, onGetIn
             </Tooltip>
 
             <Tooltip title='Find out whats important about insurance for you' placement='top'>
-                <Fab color="primary" aria-label="-get-info">
+                <Fab color="primary" aria-label="-get-info" onClick={onGetInfoPress}>
                     <HelpIcon />
                 </Fab>
             </Tooltip>
