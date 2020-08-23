@@ -28,7 +28,6 @@ const useStyles = makeStyles({
         alignItems: 'center',
         marginRight: 'auto',
         padding: '10px 15px',
-        //background: '#f2f2f2',
     },
     searchBar: {
         marginLeft: '10px',
