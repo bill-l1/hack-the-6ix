@@ -15,6 +15,7 @@ const useStyles = makeStyles({
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
+        overflowY: 'auto',
     },
     flexDisplay: {
         display: 'flex',
@@ -60,10 +61,10 @@ const useStyles = makeStyles({
         width: '85vw',
         height: '85vh',
         backgroundColor: '#fff',
-        border: '3px solid #000',
         gridTemplateColumns: 'auto 12.5% 21.875% 3.125% 12.5% 12.5% 12.5% 12.5% auto',
-        gridTemplateRows: '2.5% 7.5% 12.5% 6.25% 12.5% 3.5% 10% 12.5% 30% auto',
+        gridTemplateRows: '2.5% 7.5% 12.5% 6.25% 12.5% 8.5% 10% 12.5% 25% auto',
         gridGap: '1',
+        outline: 'none',
     },
 });
 
@@ -137,7 +138,7 @@ const Info = ({open, onClose, selectedCardIds}) => {
                 <InfoCards>
                     <CardContent>
                         <h3><HomeIcon/>Home Insurance</h3>
-                        <p>Homeowners insurance is a form of property insurance that covers losses and damages to an individual's residence, along with furnishings and other assets in the home. Homeowners insurance also provides liability coverage against accidents in the home or on the property.
+                        <p>Homeowners insurance is a form of property insurance that covers losses and damages to an individual's residence, along with furnishings and other assets in the home. Homeowners insurance also provides liability coverage against accidents on the property.
                         </p>
                         <p>Other coverages and types of home insurance include: Water Damage Coverage, Cottage, Condo, Renter, Travel, Tenant, and more.
                         </p>
@@ -146,7 +147,7 @@ const Info = ({open, onClose, selectedCardIds}) => {
                 <InfoCards>
                     <CardContent>
                         <h3><DriveEtaIcon/>Auto Insurance</h3>
-                        <p>Auto insurance is a contract between you and the insurance company that protects you against financial loss in the event of an accident or theft. In exchange for your paying a premium, the insurance company agrees to pay your losses as outlined in your policy.</p>
+                        <p>Auto insurance is a contract between you and the insurance company that protects you against financial loss in the event of an accident or theft.</p>
                         <p>Other coverages and types of auto insurance, other than standard liability insurance, include: Collision, Comprehensive, Glass Coverage, Uninsured Motorist Coverage, and more.
                         </p>
                     </CardContent>
@@ -155,7 +156,7 @@ const Info = ({open, onClose, selectedCardIds}) => {
                     <CardContent>
                         <h3><MonetizationOnIcon/>Other Insurance Policies</h3>
                         <p>In addition to home insurance and auto insurance, the two most common types of P&C insurance, there are numerous other insurance types that fall under the P&C umbrella. </p>
-                        <p>Whether it's for a business, a farm, or even a ship, there are numerous types and coverages avaiable depending on different insurance providers.
+                        <p>Whether it's for a business, a farm, or even a ship, there are numerous types and coverages available depending on different insurance providers.
                         </p>
                     </CardContent>
                 </InfoCards>

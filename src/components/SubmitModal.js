@@ -15,6 +15,8 @@ import AssetReviewList from './AssetReviewList'
 const useStyles = makeStyles({
     modal: {
         position: 'absolute',
+        overflowY: 'auto',
+        outline: 'none',
         width: '80vw',
         height: '80vh',
         top: '50%',
