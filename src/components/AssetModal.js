@@ -11,7 +11,6 @@ import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
 import tileData from './tileData';
-import { createChainedFunction } from '@material-ui/core'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -159,8 +158,8 @@ const AssetInfo = (props) => {
     )
 }
 
+/*doesnt work right now, was meant to open an image
 const ZoomImg = (props) => {
-
     return( 
     <div>
     <Modal
@@ -171,6 +170,7 @@ const ZoomImg = (props) => {
     </div>
     )
 }
+*/
 
 const AssetPics = (props) => {
     const classes = useStyles();
@@ -179,7 +179,8 @@ const AssetPics = (props) => {
       <div className={classes.gridList}>
         <GridList cellHeight={300} spacing={1} className={classes.gridList}>
           {tileData.map((tile) => (
-            <GridListTile cols={tile.featured ? 2 : 1} rows={tile.featured ? 2 : 1} onClick={ZoomImg}>
+            <GridListTile cols={tile.featured ? 2 : 1} rows={tile.featured ? 2 : 1} //onClick={ZoomImg}
+            >
               <img src={tile.img} alt={tile.title} />
               <GridListTileBar
                 title={tile.title}
