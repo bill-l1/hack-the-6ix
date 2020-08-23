@@ -90,7 +90,7 @@ const useStyles = makeStyles({
     }
 })
 
-const SubmitModal = ({open, onClose, selectedCards}) => { 
+const SubmitModal = ({open, onClose, selectedCards, onSubmit}) => { 
     const [category, setCategory] = useState('Property')
     const [provider, setProvider] = useState('Intact')
     const [accountInfo, setAccountInfo] = useState('')
@@ -106,6 +106,10 @@ const SubmitModal = ({open, onClose, selectedCards}) => {
     const onPolicyInfoChange = e => setPolicyInfo(e.target.value)
     const onDateInfoChange = d => setDateInfo(d)
     const onAdditionalInfoChange = e => setAdditionalInfo(e.target.value)
+
+    const handleSubmit = e => {
+        onSubmit(category, provider, accountInfo, policyInfo, dateInfo, additionalInfo);
+    }
 
     return (
         <Modal open={open} onClose={onClose}>
@@ -203,7 +207,7 @@ const SubmitModal = ({open, onClose, selectedCards}) => {
                 </div>
 
                 <div className={classes.submit}> 
-                    <Fab color="primary" variant='extended'>
+                    <Fab color="primary" variant='extended' onClick={handleSubmit}>
                         <PublishIcon />
                         Submit
                     </Fab>

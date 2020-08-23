@@ -9,6 +9,7 @@ import Header from '../components/Header'
 import Info from '../components/Info'
 import AssetModal from '../components/AssetModal'
 import SubmitModal from '../components/SubmitModal'
+import createAndDownloadPackage from '../services/packageService';
 
 const useStyles = makeStyles({
     container: {
@@ -214,6 +215,18 @@ const Main = ({firebase}) => {
         else
         setSelectedCardIds(selectedCardIds.filter(c_id => c_id !== id))
     }
+
+    const getCardIds = () => {
+       return cards.filter(card => selectedCardIds.includes(card.id))
+    }
+
+    const usePackageService = (category, provider, accountInfo, policyInfo, dateInfo, additionalInfo) => {
+        createAndDownloadPackage(firebase, getCardIds(), category, provider, accountInfo, policyInfo, dateInfo, additionalInfo).then(res => {
+            console.log("success", res)
+        }).catch(err=> {
+            console.error(err.code, err.message)
+        })
+    }
     
     const onSearchbarChange = e => setSearch(e.target.value)
     const onSubmitPress = () => setSubmitModalOpen(true)
@@ -253,7 +266,11 @@ const Main = ({firebase}) => {
                 setSubmit={setSubmit}
                 ref={assetModalRef}
             />
-            <SubmitModal open={submitModalOpen} onClose={onSubmitModalClose} selectedCards={cards.filter(card => selectedCardIds.includes(card.id))}/>
+            <SubmitModal 
+            open={submitModalOpen} 
+            onClose={onSubmitModalClose} 
+            selectedCards={getCardIds()}
+            onSubmit={usePackageService}/>
         </div>
     )
 }
