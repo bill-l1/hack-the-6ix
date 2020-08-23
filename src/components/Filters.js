@@ -18,12 +18,13 @@ const useStyles = makeStyles({
         border: '1px solid grey',
         borderRadius: 'none',
         width: '90%',
-        margin: '15px auto 15px auto',
+        margin: '15px auto',
         padding: '10px 20px',
     },
     stickySearch: {
         borderWidth: style => style.borderWidth,
-        borderRadius: style => style.borderRadius
+        borderRadius: style => style.borderRadius,
+        background: style => style.background
     },
     searchDiv: {
         display: 'flex',
@@ -82,10 +83,10 @@ const Filters = ({onSearchbarChange, onCategoryChange, categories}) => {
 
     useEffect(() => {
         if (headerSticky === 0) {
-            setStyle({ borderWidth: '1px 0px 1px 0px', borderRadius: '0px' })
+            setStyle({ borderWidth: '1px 0px 1px 0px', borderRadius: '0px', background: '#dce0e6' })
         }
         if (headerSticky === 1) {
-            setStyle({ borderWidth: '1px', borderRadius: '5px' })
+            setStyle({ borderWidth: '1px', borderRadius: '5px', background: '#fff' })
         }
     }, [headerSticky])
 

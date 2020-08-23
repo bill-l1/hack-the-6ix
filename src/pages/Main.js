@@ -9,6 +9,10 @@ import Header from '../components/Header'
 import Info from '../components/Info'
 
 const useStyles = makeStyles({
+    container: {
+        background: '#dce0e6',
+        minHeight: '100vh'
+    }
 })
 
 const names = ['Aarish', 'Bill', 'Bowen', 'Matthew']
@@ -63,13 +67,13 @@ const Main = ({firebase}) => {
     const onInfoClose = () => { setInfoOpen(false) }
 
     return (
-        <>
+        <div className={classes.container}>
             <Header />
             <Filters onSearchbarChange={onSearchbarChange} onCategoryChange={onCategoryChange} categories={categories}/>
             <AssetList search={search} categories={categories} cards={cards}/>
             <FloatingActionButtons onGetInfoPress={onGetInfoPress}/>
             <Info open={submitInfoOpen} onClose={onInfoClose}/>
-        </>
+        </div>
     )
 }
 
