@@ -1,39 +1,71 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import AssetModal from '../components/AssetModal'
+
+import { withFirebase } from '../components/Firebase'
+import AssetList from '../components/AssetList'
+import Filters from '../components/Filters'
+import FloatingActionButtons from '../components/FloatingActionButtons'
+import Header from '../components/Header'
 
 
-const useStyles = makeStyles((theme) => ({
-    root: {
-      height: 300,
-      flexGrow: 1,
-      minWidth: 300,
+const useStyles = makeStyles({
+})
 
-    },
-    modal: {
-      display: 'flex',
-      padding: theme.spacing(1),
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-    paper: {
-      width: 1000,
-      height: 600,
-      backgroundColor: '#f5f5dc',
-      border: '3px solid #000',
-      boxShadow: theme.shadows[5],
-      padding: theme.spacing(2, 4, 3),
-    },
+const names = ['Aarish', 'Bill', 'Bowen', 'Matthew']
 
-  }));
+// let cards = []
+// for (let i = 0; i < 20; i++) {
+//     let name = names[Math.floor(Math.random() * names.length)]
+//     let category = insuranceTypes[Math.floor(Math.random() * insuranceTypes.length)].name
+//     cards.push({
+//         name: name,
+//         category: category
+//     })
+// }
 
+const Main = ({firebase}) => { 
+    const [categories, setCategories] = useState([])
+    const [search, setSearch] = useState('')
+    const [cards, setCards] = useState([]);
+    const [userAuth, setUserAuth] = useState(null);
 
-const Main = (props) => {
+    useEffect(() => {
+        firebase.auth.onAuthStateChanged(user => {
+            user ? setUserAuth(user) : setUserAuth(null)
+            if (user) {
+                console.log(firebase.getUser());
+                firebase.getAllAssets().then(assets => {
+                    setCards(assets);
+                });
+            }
+            
+            return () => {
+                console.log('cleanup effects');
+            }
+        })
+    }, [userAuth])
+
+    const classes = useStyles()
+
+    const onSearchbarChange = (e) => {
+        setSearch(e.target.value)
+    }
+
+    const onCategoryChange = (category) => {
+        if (categories.includes(category))
+            setCategories(categories.filter(c => c !== category))
+        else 
+            setCategories([...categories, category])
+    }
+
     return (
-        <div>
-            <AssetModal name="House" />
-        </div>
+        <>
+            <Header />
+            <Filters onSearchbarChange={onSearchbarChange} onCategoryChange={onCategoryChange} categories={categories}/>
+            <AssetList search={search} categories={categories} cards={cards}/>
+            <FloatingActionButtons />
+        </>
     )
 }
 
-export default Main
+export default withFirebase(Main);
