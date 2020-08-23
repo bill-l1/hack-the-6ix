@@ -7,27 +7,16 @@ import Filters from '../components/Filters'
 import FloatingActionButtons from '../components/FloatingActionButtons'
 import Header from '../components/Header'
 import Info from '../components/Info'
+import SubmitModal from '../components/SubmitModal'
 
-const useStyles = makeStyles({
-})
-
-const names = ['Aarish', 'Bill', 'Bowen', 'Matthew']
-
-// let cards = []
-// for (let i = 0; i < 20; i++) {
-//     let name = names[Math.floor(Math.random() * names.length)]
-//     let category = insuranceTypes[Math.floor(Math.random() * insuranceTypes.length)].name
-//     cards.push({
-//         name: name,
-//         category: category
-//     })
-// }
 
 const Main = ({firebase}) => { 
     const [categories, setCategories] = useState([])
     const [search, setSearch] = useState('')
     const [cards, setCards] = useState([])
     const [userAuth, setUserAuth] = useState(null)
+    const [selectedCardIds, setSelectedCardIds] = useState([])
+    const [submitModalOpen, setSubmitModalOpen] = useState(false)
     const [submitInfoOpen, setInfoOpen] = useState(false)
 
     useEffect(() => {
@@ -45,30 +34,36 @@ const Main = ({firebase}) => {
             }
         })
     }, [userAuth])
-
-    const classes = useStyles()
-
-    const onSearchbarChange = (e) => {
-        setSearch(e.target.value)
-    }
-
-    const onCategoryChange = (category) => {
+    
+    const onCategoryChange = category => {
         if (categories.includes(category))
-            setCategories(categories.filter(c => c !== category))
+        setCategories(categories.filter(c => c !== category))
         else 
-            setCategories([...categories, category])
+        setCategories([...categories, category])
     }
 
-    const onGetInfoPress = () => { setInfoOpen(true) }
-    const onInfoClose = () => { setInfoOpen(false) }
+    
+    const onSelectionChange = (checked, id) => {
+        if (checked)
+        setSelectedCardIds([...selectedCardIds, id])
+        else
+        setSelectedCardIds(selectedCardIds.filter(c_id => c_id !== id))
+    }
+    
+    const onSearchbarChange = e => setSearch(e.target.value)
+    const onSubmitPress = () => setSubmitModalOpen(true)
+    const onSubmitModalClose = () => setSubmitModalOpen(false)
+    const onGetInfoPress = () => setInfoOpen(true)
+    const onInfoClose = () => setInfoOpen(false)
 
     return (
         <>
             <Header />
             <Filters onSearchbarChange={onSearchbarChange} onCategoryChange={onCategoryChange} categories={categories}/>
-            <AssetList search={search} categories={categories} cards={cards}/>
-            <FloatingActionButtons onGetInfoPress={onGetInfoPress}/>
+            <AssetList search={search} categories={categories} cards={cards} onSelectionChange={onSelectionChange}/>
+            <FloatingActionButtons onSubmitPress={onSubmitPress} onGetInfoPress={onGetInfoPress}/>
             <Info open={submitInfoOpen} onClose={onInfoClose}/>
+            <SubmitModal open={submitModalOpen} onClose={onSubmitModalClose} selectedCards={cards.filter(card => selectedCardIds.includes(card.id))}/>
         </>
     )
 }
