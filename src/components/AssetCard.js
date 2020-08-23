@@ -1,17 +1,29 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { makeStyles } from '@material-ui/core/styles';
+import { loadCSS } from 'fg-loadcss';
 import Paper from '@material-ui/core/Paper'
+import Checkbox from '@material-ui/core/Checkbox'
+import Icon from '@material-ui/core/Icon'
 
 import insuranceTypes from '../constants/insuranceTypes'
 import placeholder from '../assets/logo.png'
 
-import GradeIcon from '@material-ui/icons/Grade'
 
 
 const useStyles = makeStyles({
-    card: {
+    card: checked => ({
         height: '300px',
-        width: '300px'
+        width: '300px',
+        position: 'relative',
+        border: checked ? '2px ridge #73fc03' : ''
+    }),
+    checkbox: {
+        position: 'absolute',
+        top: '0px',
+        right: '0px',
+        padding: '5px',
+        margin: '0px',
+        color: 'white'
     },
     imageContainer: {
         height: '70%',
@@ -54,8 +66,21 @@ const useStyles = makeStyles({
     },
 })
 
-const AssetCard = ({name, category, date, value}) => { 
-    const classes = useStyles()
+const AssetCard = ({name, category, date, value, id, onSelectionChange}) => { 
+    const [checked, setChecked] = useState(false)
+
+    useEffect(() => {
+        const node = loadCSS(
+        'https://use.fontawesome.com/releases/v5.12.0/css/all.css',
+        document.querySelector('#font-awesome-css'),
+        );
+    
+        return () => {
+        node.parentNode.removeChild(node);
+        };
+    }, []);
+    
+    const classes = useStyles(checked)
 
     const getCategoryIcon = () => {
         for (let type of insuranceTypes) {
@@ -63,12 +88,25 @@ const AssetCard = ({name, category, date, value}) => {
                 return <type.icon className={`${classes.topText} ${classes.rightText}`}/>
         }
     }
+
+    const onCheckboxChange = (e) => {
+        onSelectionChange(e.target.checked, id)
+        setChecked(e.target.checked)
+    }
     
     return (
         <Paper className={classes.card} elevation={2}>
             <div className={classes.imageContainer}>
                 <img className={classes.image} src={placeholder} alt={'gone girl 2'} />
             </div>
+            <Checkbox 
+                className={classes.checkbox}
+                icon={<Icon className='fas fa-square' />}
+                color='default'
+                size='medium'
+                checked={checked}
+                onChange={onCheckboxChange}
+            />
             <div className={classes.infoContainer}>
                 <h4 className={`${classes.topText} ${classes.leftText}`}> {name} </h4>
                 {getCategoryIcon()}

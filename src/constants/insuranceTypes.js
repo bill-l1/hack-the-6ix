@@ -1,4 +1,3 @@
-import React from 'react'
 import HomeIcon from '@material-ui/icons/Home'
 import DriveEtaIcon from '@material-ui/icons/DriveEta'
 import GradeIcon from '@material-ui/icons/Grade'

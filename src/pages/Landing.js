@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import MockDesign from '../assets/mock-app-design.jpg'
 import { makeStyles, styled } from '@material-ui/core/styles'
 import { Button, Input, Card, CardContent } from '@material-ui/core'
-import { DoubleArrow } from '@material-ui/icons';
+import { DoubleArrow, Facebook, Instagram, Twitter, LinkedIn, PostAdd, Gavel, Help } from '@material-ui/icons';
 import { animateScroll as scroll } from 'react-scroll'
 import * as ROUTES from '../constants/routes'
 import { Link, useHistory } from 'react-router-dom'
@@ -56,6 +56,9 @@ const useStyles = makeStyles({
         display: 'flex',
         justifyContent: 'space-around',
     },
+    icon: {
+        fontSize: '100px',
+    },
     footer: {
         display: 'flex',
         padding: '3vh 15vh', 
@@ -95,9 +98,7 @@ const InfoCards = styled(Card)({
     margin: '0 10px',
     boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
     width: '80%',
-    '& h3': {
-        textAlign: 'center'
-    }
+    textAlign: 'center'
 });
 
 const Landing = (props) => { 
@@ -181,7 +182,7 @@ const Landing = (props) => {
             <div className={classes.infoDiv}>
                 <InfoCards>
                     <CardContent>
-                        icon<br /><h3>Title</h3>
+                        <PostAdd className={classes.icon}/><br /><h3>Track Assets</h3>
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore 
                         magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo 
                         consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
@@ -190,7 +191,7 @@ const Landing = (props) => {
                 </InfoCards>
                 <InfoCards>
                     <CardContent>
-                        icon<br /><h3>Title</h3>
+                        <Gavel className={classes.icon}/><br /><h3>Create Document For Claims</h3>
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore 
                         magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo 
                         consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
@@ -199,7 +200,7 @@ const Landing = (props) => {
                 </InfoCards>
                 <InfoCards>
                     <CardContent>
-                        icon<br /><h3>Title</h3>
+                        <Help className={classes.icon}/><br /><h3>Learn About Insurance</h3>
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore 
                         magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo 
                         consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
@@ -212,7 +213,7 @@ const Landing = (props) => {
                     Copyright © 2020, Company Name
                 </div>
                 <div style={{'marginLeft': 'auto'}}>
-                    ICONS ICONS ICONS
+                    <LinkedIn /> <Facebook /> <Instagram /> <Twitter />
                 </div>
             </div>
         </div>
