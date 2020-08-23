@@ -7,7 +7,8 @@ const useStyles = makeStyles({
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'center',
-        flexWrap: 'wrap'
+        flexWrap: 'wrap',
+        backgroundColor: '#dce0e6',
     },
     assetList: {
         padding: '15px 30px',
