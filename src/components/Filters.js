@@ -63,6 +63,7 @@ const Filters = ({onSearchbarChange, onCategoryChange, categories}) => {
         <Button
             startIcon={<category.icon/>}
             color={categories.includes(category.name) ? 'primary' : 'default'}
+            className={categories.includes(category.name) ? classes.active : classes.inactive}
             onClick={() => onCategoryChange(category.name)}
         >
             {category.name}
