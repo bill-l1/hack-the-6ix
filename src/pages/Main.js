@@ -6,6 +6,7 @@ import AssetList from '../components/AssetList'
 import Filters from '../components/Filters'
 import FloatingActionButtons from '../components/FloatingActionButtons'
 import Header from '../components/Header'
+import SubmitModal from '../components/SubmitModal'
 
 
 const useStyles = makeStyles({
@@ -16,7 +17,8 @@ const Main = ({firebase}) => {
     const [search, setSearch] = useState('')
     const [cards, setCards] = useState([])
     const [selectedCardIds, setSelectedCardIds] = useState([])
-    const [userAuth, setUserAuth] = useState(null);
+    const [userAuth, setUserAuth] = useState(null)
+    const [submitModalOpen, setSubmitModalOpen] = useState(false)
 
     useEffect(() => {
         firebase.auth.onAuthStateChanged(user => {
@@ -54,12 +56,16 @@ const Main = ({firebase}) => {
             setSelectedCardIds(selectedCardIds.filter(c_id => c_id !== id))
     }
 
+    const onSubmitPress = () => { setSubmitModalOpen(true) }
+    const onSubmitModalClose = () => { setSubmitModalOpen(false) }
+
     return (
         <>
             <Header />
             <Filters onSearchbarChange={onSearchbarChange} onCategoryChange={onCategoryChange} categories={categories}/>
             <AssetList search={search} categories={categories} cards={cards} onSelectionChange={onSelectionChange}/>
-            <FloatingActionButtons />
+            <FloatingActionButtons onSubmitPress={onSubmitPress} />
+            <SubmitModal open={submitModalOpen} onClose={onSubmitModalClose} selectedCardIds={selectedCardIds}/>
         </>
     )
 }
