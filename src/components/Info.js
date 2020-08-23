@@ -70,7 +70,7 @@ const useStyles = makeStyles({
 
 const StepsCards = styled(Card)({
     borderRadius: '5px',
-    margin: '0 5px',
+    margin: '10px 5px',
     width: '30%',
     boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
     textAlign: 'center',
@@ -98,7 +98,7 @@ const Info = ({open, onClose, selectedCardIds}) => {
             className={classes.modal}>
             <div className={classes.grid}>
                 <div className={classes.title}>
-                    <h3>About Property & Casualty Insurance</h3>
+                    <h2>About Property & Casualty Insurance</h2>
                 </div>
                 <div className={classes.intro}> 
                     <p>Property insurance helps cover stuff you own like your home or your car.
@@ -110,7 +110,7 @@ const Info = ({open, onClose, selectedCardIds}) => {
                     </p>
                 </div>
                 <div className={classes.process}>
-                    <h3>Steps to Insurance</h3>
+                    <h2>Steps to Insurance</h2>
                 </div>
                 <div className={classes.steps}>
                     <StepsCards>
