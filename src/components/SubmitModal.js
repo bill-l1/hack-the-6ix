@@ -90,7 +90,7 @@ const useStyles = makeStyles({
     }
 })
 
-const SubmitModal = ({open, onClose, selectedCards}) => { 
+const SubmitModal = ({open, onClose, selectedCards, onSubmit}) => { 
     const [category, setCategory] = useState('Property')
     const [provider, setProvider] = useState('Intact')
     const [accountInfo, setAccountInfo] = useState('')
@@ -203,7 +203,7 @@ const SubmitModal = ({open, onClose, selectedCards}) => {
                 </div>
 
                 <div className={classes.submit}> 
-                    <Fab color="primary" variant='extended'>
+                    <Fab color="primary" variant='extended' onClick={onSubmit}>
                         <PublishIcon />
                         Submit
                     </Fab>
