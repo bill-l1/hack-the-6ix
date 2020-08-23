@@ -1,10 +1,11 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import InsurancePlaceholder from '../assets/Insurance-placeholder.png'
 import { makeStyles, styled } from '@material-ui/core/styles'
 import { Input, Button } from '@material-ui/core'
 import { useHistory } from 'react-router-dom'
 import * as ROUTES from '../constants/routes'
-import { NavigateBefore } from '@material-ui/icons';
+import { NavigateBefore } from '@material-ui/icons'
+import { withFirebase } from '../components/Firebase'
 
 const useStyles = makeStyles({
     container: {
@@ -73,10 +74,37 @@ const SignUpButton = styled(Button)({
     padding: '0 30px',
 });
 
+const DEFAULT_INPUT_VALUES = {
+    'firstName': '',
+    'lastName': '',
+    'email': '',
+    'password1': '',
+    'password2': ''
+}
 
-const CreateAccount = (props) => { 
+const CreateAccount = ({firebase}) => { 
     const classes = useStyles()
     const history = useHistory()
+
+    const [inputValues, setInputValues] = useState(DEFAULT_INPUT_VALUES)
+    const [signUpError, setSignUpError] = useState(null)
+
+    const onInputChange = e => {
+        setInputValues({...inputValues, [e.target.name]:e.target.value})
+        console.log(inputValues)
+    }
+
+    const onSubmit = () => {
+        const {email, password1, firstName, lastName} = inputValues
+        const name = `${firstName.trim()} ${lastName.trim()}`
+        firebase.createUserWithEmailAndPassword(email, password1, name, true).then(() => {
+            setInputValues(DEFAULT_INPUT_VALUES)
+            history.push(ROUTES.MAIN)
+            console.log('logged in')
+        }).catch(err => {
+            console.error(err.code, err.message)
+        })
+    }
 
     return (
         <div className={classes.container}>
@@ -92,17 +120,26 @@ const CreateAccount = (props) => {
                     It's quick & easy.
                     <form className={classes.form}>
                         <div>
-                            <UserInput style={{'marginRight': '10px'}} disableUnderline={true} placeholder='First Name'/>
-                            <UserInput style={{'marginLeft': '10px'}} disableUnderline={true} placeholder='Last Name'/>
+                            <UserInput onChange={onInputChange} name='firstName' style={{'marginRight': '10px'}} disableUnderline={true} placeholder='First Name'/>
+                            <UserInput onChange={onInputChange} name='lastName' style={{'marginLeft': '10px'}} disableUnderline={true} placeholder='Last Name'/>
                         </div>
-                        <UserInput disableUnderline={true} placeholder='Email'/>
-                        <UserInput disableUnderline={true} placeholder='Password'/>
+                        <UserInput onChange={onInputChange} name='email' type='text' disableUnderline={true} placeholder='Email'/>
+                        <UserInput onChange={onInputChange} name='password1' type='password' disableUnderline={true} placeholder='Password'/>
+                        <UserInput onChange={onInputChange} name='password2'type='password' disableUnderline={true} placeholder='Confirm Password'/>
                     </form>
-                    <SignUpButton>Sign Up</SignUpButton>
+                    <div className={classes.flexDisplay}>
+                        <SignUpButton 
+                        disabled={inputValues['password1'] === '' || inputValues['password1'] !== inputValues['password2']} 
+                        onClick={onSubmit}>
+                            Sign Up
+                            </SignUpButton>
+                        {signUpError && <small style={{color:'red'}}>{signUpError.message}</small>}
+                    </div>
+                    
                 </div>
             </div>
         </div>
     )
 }
 
-export default CreateAccount
+export default withFirebase(CreateAccount)

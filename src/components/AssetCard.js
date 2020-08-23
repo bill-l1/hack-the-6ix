@@ -62,7 +62,7 @@ const AssetCard = ({name, category, date, value}) => {
                 <p className={`${classes.topText} ${classes.leftText}`}>{name}</p>
                 <p className={`${classes.topText} ${classes.rightText}`}>{category}</p>
                 <p className={`${classes.bottomText} ${classes.leftText}`}>{date}</p>
-                <p className={`${classes.bottomText} ${classes.rightText}`}>{value}</p>
+                <p className={`${classes.bottomText} ${classes.rightText}`}>{'$'+value}</p>
             </div>
         </Paper>
     )

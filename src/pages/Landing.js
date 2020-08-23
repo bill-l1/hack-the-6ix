@@ -131,7 +131,7 @@ const Landing = (props) => {
             setEmail('')
             setPassword('')
             setSigninError(null)
-            props.history.push('/main');
+            history.push(ROUTES.MAIN);
             console.log('logged in');
         })
         .catch(err => {
@@ -164,7 +164,11 @@ const Landing = (props) => {
                         <input onChange={onCheckboxChange} type='checkbox'/><p>Keep me signed in</p>
                         <p>Forgot password?</p>
                     </div>
-                    <MyButton disabled={email === '' || password === ''} onClick={onSubmit}>Sign In</MyButton>
+                    <div className={classes.flexDisplay}>
+                        <MyButton disabled={email === '' || password === ''} onClick={onSubmit}>Sign In</MyButton>
+                        {signinError && <small style={{color:'red'}}>{signinError.message}</small>}
+                    </div>
+                    
                     <p>Don't have an account? <Link to={ROUTES.CREATEACCOUNT}>Create an account</Link>, it takes less than a minute</p>
                 </div>
                 <div onClick={() => scroll.scrollToBottom()}><DoubleArrow className={classes.scroll} /></div>

@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import  { ExitToApp, Person, AccountBalanceWallet } from '@material-ui/icons';
 import { useHistory } from 'react-router-dom'
 import * as ROUTES from '../constants/routes'
+import { withFirebase } from './Firebase'
 
 const useStyles = makeStyles({
     wrapper: {
@@ -27,17 +28,42 @@ const useStyles = makeStyles({
     }
 })
 
-const UserInfo = () => { 
+const UserInfo = ({firebase}) => { 
     const classes = useStyles()
     const history = useHistory()
 
+    const [name, setName] = useState('foobar');
+
+    useEffect(() => {
+        firebase.auth.onAuthStateChanged(user => {
+            if(user) setName(firebase.getUser()['name']);
+        })
+    }, [setName])
+
+    const toMain = () => {
+        history.push(ROUTES.MAIN)
+    }
+    
+    const toProfile = () => {
+        history.push(ROUTES.PROFILE)
+    }
+
+    const onSignOut = () => {
+        firebase.signOut().then(() => {
+            history.push(ROUTES.LANDING);
+            console.log('logged out');
+        }).catch(err => {
+            console.log(err.code, err.message);
+        });
+    }
+
     return (
         <div className={classes.wrapper}>
-            <div onClick={() => history.push(ROUTES.MAIN)}><AccountBalanceWallet /><p>View All Assets</p></div>
-            <div onClick={() => history.push(ROUTES.PROFILE)}><Person /><p>Aaryeet Iltg</p></div>
-            <div onClick={() => history.push(ROUTES.LANDING)}><p>Sign Out</p><ExitToApp /></div>
+            <div onClick={toMain}><AccountBalanceWallet /><p>View All Assets</p></div>
+            <div onClick={toProfile}><Person /><p>{name}</p></div>
+            <div onClick={onSignOut}><p>Sign Out</p><ExitToApp /></div>
         </div>
     )
 }
 
-export default UserInfo
+export default withFirebase(UserInfo)
