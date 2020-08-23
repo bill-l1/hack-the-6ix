@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import MockDesign from '../assets/mock-app-design.jpg'
 import { makeStyles, styled } from '@material-ui/core/styles'
 import { Button, Input, Card, CardContent } from '@material-ui/core'
-import { DoubleArrow } from '@material-ui/icons';
+import { DoubleArrow, Facebook, Instagram, Twitter, LinkedIn } from '@material-ui/icons';
 import { animateScroll as scroll } from 'react-scroll'
 import * as ROUTES from '../constants/routes'
 import { Link, useHistory } from 'react-router-dom'
@@ -212,7 +212,7 @@ const Landing = (props) => {
                     Copyright © 2020, Company Name
                 </div>
                 <div style={{'marginLeft': 'auto'}}>
-                    ICONS ICONS ICONS
+                    <LinkedIn /> <Facebook /> <Instagram /> <Twitter />
                 </div>
             </div>
         </div>
