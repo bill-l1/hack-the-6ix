@@ -14,13 +14,14 @@ const useStyles = makeStyles({
         top: '30px', 
         background: '#fff',
         border: '1px solid black',
-        borderRadius: '5px',
-        width: '90%',
+        borderRadius: 'none',
+        width: '92%',
         margin: '15px auto 15px auto',
         padding: '10px 20px',
     },
     stickySearch: {
-        border: style => style.border,
+        borderWidth: style => style.borderWidth,
+        borderRadius: style => style.borderRadius
     },
     searchDiv: {
         width: '40%',
@@ -64,15 +65,15 @@ const Filters = ({insuranceTypes, onSearchbarChange, onCategoryChange, categorie
 
     useEffect(() => {
         if (headerSticky === 0) {
-            setStyle({ border: 'none' })
+            setStyle({ borderWidth: '1px 0px 1px 0px', borderRadius: '0px' })
         }
         if (headerSticky === 1) {
-            setStyle({ border: '1px solid black' })
+            setStyle({ borderWidth: '1px', borderRadius: '5px' })
         }
     }, [headerSticky])
 
     return (
-        <div className={`${classes.filters} ${classes.stickySearch}`}>
+        <div className={`${classes.stickySearch} ${classes.filters}`}>
             <div className={classes.searchDiv}>
                 <SearchIcon />
                 <Input
