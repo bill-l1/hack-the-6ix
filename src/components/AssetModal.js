@@ -3,6 +3,9 @@ import { makeStyles } from '@material-ui/core/styles'
 import Modal from '@material-ui/core/Modal'
 import Input from '@material-ui/core/Input'
 import Button from '@material-ui/core/Button'
+import TextField from '@material-ui/core/TextField';
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
 
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
@@ -49,6 +52,30 @@ const useStyles = makeStyles((theme) => ({
 const AssetInfo = (props) => {
     const classes = useStyles();
 
+    const [value, setValue] = React.useState('');
+
+    const handleChange = (event) => {
+      setValue(event.target.value);
+    }
+    
+    const getToolTip = () => {
+        if (value == 'Property') {
+            return 'Details may include location, years of inhabitance, date of construction, and more.'
+        }
+        if (value == 'Auto') {
+            return 'Details may include model, brand, mileage, number of drivers, and more.'
+        }
+        if (value == 'Valuable') {
+            return 'Details may include model, serial number, brand, source of purchase, and more.'
+        }
+        if (value == 'Misc.') {
+            return 'Details may include model, serial number, brand, source of purchase, and more.'
+        }
+        else {
+            return 'Details may include model, serial number, brand, source of purchase, and more.'
+        }
+    }
+
     return (
         <form className={classes.info}>
             <label> Name:
@@ -59,13 +86,19 @@ const AssetInfo = (props) => {
                     }}
                 /> 
             </label>
-            <label> Brand: 
-                <Input
-                    defaultValue = {props.brand}
-                    onChange={event => {
-                        console.log(event.target.value)
-                    }}
-                />
+            <label> Category:
+                <Select
+                    labelId='Category'
+                    id='category'
+                    autoWidth = {true}
+                    value={value}
+                    onChange={handleChange}
+                >
+                    <MenuItem value={'Property'}>Property</MenuItem>
+                    <MenuItem value={'Auto'}>Auto</MenuItem>
+                    <MenuItem value={'Valuables'}>Valuables</MenuItem>
+                    <MenuItem value={'Misc.'}>Misc.</MenuItem>
+                </Select>
             </label>
             <label> Quantity:
                 <Input
@@ -91,6 +124,16 @@ const AssetInfo = (props) => {
                     }}
                 />
             </label>
+            <label> Additional Information: </label>
+            <TextField
+                    id='additional-info'
+                    multiline
+                    rowsMax={10}
+                    helperText={getToolTip()}
+                    onChange={event => {
+                        console.log(event.target.value)
+                    }}
+                    />
             <input accept="image/*"
                 className={classes.input}
                 style={{ display: 'none' }}
